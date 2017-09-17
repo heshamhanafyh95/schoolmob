@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
     package="com.schoolpua.schoolmob">
+=======
+    package="com.schoolpua.schoolmob" >
+>>>>>>> d36d34e6e84d2960682ccfcc7760eff4022c8397
 
     <application
         android:allowBackup="true"
@@ -8,20 +12,28 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+<<<<<<< HEAD
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:label="">
+=======
+        android:theme="@style/AppTheme" >
+        <activity android:name=".MainActivity" >
+>>>>>>> d36d34e6e84d2960682ccfcc7760eff4022c8397
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity
             android:name=".profile"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
+=======
+>>>>>>> d36d34e6e84d2960682ccfcc7760eff4022c8397
     </application>
 
 </manifest>
