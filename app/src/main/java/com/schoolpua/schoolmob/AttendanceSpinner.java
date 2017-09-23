@@ -10,13 +10,12 @@ import android.view.View;
 import android.os.Bundle;
 import java.util.List;
 import java.util.ArrayList;
-import android.widget.Adapter;
 
-public class AteendeceSpinner extends Activity implements AdapterView.OnItemSelectedListener {
+public class AttendanceSpinner extends Activity implements AdapterView.OnItemSelectedListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.attendence);
+        setContentView(R.layout.attendance);
         // Spinner element
         Spinner spinner = (Spinner) findViewById(R.id.attendence_spinner);
         // Spinner click listener

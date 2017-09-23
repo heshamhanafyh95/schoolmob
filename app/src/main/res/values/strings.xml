@@ -12,13 +12,10 @@
 
     <string name="action_settings">Settings</string>
 
-<<<<<<< HEAD
-=======
     <string-array name="attendence_array">
         <item>Day</item>
         <item>Week</item>
         <item>Month</item>
     </string-array>
 
->>>>>>> ffc68fd174d2969d61ed7ddb7796d3fbf4c95197
 </resources>

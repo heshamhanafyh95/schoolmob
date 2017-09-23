@@ -23,7 +23,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".AteendeceSpinner"
+            android:name=".AttendanceSpinner"
             android:label="choose" >
         </activity>
     </application>
