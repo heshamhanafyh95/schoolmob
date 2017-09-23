@@ -14,7 +14,6 @@
             android:label="">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -22,6 +21,11 @@
             android:name=".profile"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".AteendeceSpinner"
+            android:label="choose" >
+        </activity>
     </application>
 
 </manifest>
