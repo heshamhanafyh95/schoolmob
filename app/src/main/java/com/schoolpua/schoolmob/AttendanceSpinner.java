@@ -11,7 +11,7 @@ import android.os.Bundle;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AttendanceSpinner extends Activity implements AdapterView.OnItemSelectedListener {
+/*public class AttendanceSpinner extends Activity implements AdapterView.OnItemSelectedListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,4 +40,4 @@ public class AttendanceSpinner extends Activity implements AdapterView.OnItemSel
     public void onNothingSelected(AdapterView<?> arg0) {}
 
 
-}
+}*/

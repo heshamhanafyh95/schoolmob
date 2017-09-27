@@ -14,6 +14,7 @@
             android:label="">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -21,11 +22,31 @@
             android:name=".profile"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
-            android:name=".AttendanceSpinner"
-            android:label="choose" >
-        </activity>
+            android:name=".attendance"
+            android:label="@string/title_activity_attendance"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".grade"
+            android:label="@string/title_activity_grade"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".timetable"
+            android:label="TimeTable"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities"
+            android:label="Activities"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".tracking"
+            android:label="Bus Tracking"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".callSupervisor"
+            android:label="Call supervisor"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".home"></activity>
     </application>
 
 </manifest>

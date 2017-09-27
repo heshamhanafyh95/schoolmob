@@ -5,33 +5,37 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/labelicon"
+            android:title="Profile" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_attendance"
+            android:icon="@drawable/labelicon"
+            android:title="Attendance" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_grade"
+            android:icon="@drawable/labelicon"
+            android:title="Grade" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_timetable"
+            android:icon="@drawable/labelicon"
+            android:title="TimeTable" />
+        <item
+            android:id="@+id/nav_activities"
+            android:icon="@drawable/labelicon"
+            android:title="Activities" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Bus">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_tracking"
+                android:icon="@drawable/locationicon"
+                android:title="Bus Tracking" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_supervisor"
+                android:icon="@drawable/callicon"
+                android:title="Call supervisor" />
         </menu>
     </item>
 

@@ -17,5 +17,7 @@
         <item>Week</item>
         <item>Month</item>
     </string-array>
+    <string name="title_activity_attendance">attendance</string>
+    <string name="title_activity_grade">grade</string>
 
 </resources>
