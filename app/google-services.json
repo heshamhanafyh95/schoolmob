@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "41063227899",
+    "firebase_url": "https://pua-school.firebaseio.com",
+    "project_id": "pua-school",
+    "storage_bucket": "pua-school.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41063227899:android:55f22e97cc60a235",
+        "android_client_info": {
+          "package_name": "com.schoolpua.schoolmob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "41063227899-e5op3gcemv5jipb838ignc18rg78h78k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOabWQLpEmLBtkxKQ2yig_1HWntaGPuPU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

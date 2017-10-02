@@ -23,7 +23,9 @@
         <item
             android:id="@+id/nav_activities"
             android:icon="@drawable/labelicon"
-            android:title="Activities" />
+            android:title="Activities"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </group>
 
     <item android:title="Bus">
