@@ -16,8 +16,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,39 +45,32 @@ public class MainActivity extends AppCompatActivity {
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,home.class));
-            }
-        });
-
-        mAuth.signInWithEmailAndPassword("schoolmobpua@gmail.com", "pua123456")
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users/"+inputEmail.getText());
+                database.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            //Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Map<String, String> map = (Map<String, String>) dataSnapshot.getValue();
+                        String pass=map.get("password");
+                        if (pass.equals(inputPassword.getText().toString())){
+                            startActivity(new Intent(MainActivity.this,home.class));
+                            finish();
+                        }else{
+                            Toast.makeText(MainActivity.this,"invalid username or password try again",Toast.LENGTH_LONG).show();
+                            inputPassword.setText("");
                         }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
                     }
                 });
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("users/").child("1");
 
-        myRef.setValue("Hello, World!");
+            }
+        });
+
+
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
-    }
+
 }

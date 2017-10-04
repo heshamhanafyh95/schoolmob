@@ -58,9 +58,11 @@ public class tracking extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings_profile) {
             startActivity(new Intent(this,home.class));
+            finish();
             return true;
         }else if(id == R.id.action_settings_logout){
             startActivity(new Intent(this,MainActivity.class));
+            finish();
             return true;
         }
 
@@ -75,18 +77,25 @@ public class tracking extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             startActivity(new Intent(this,profile.class));
+            finish();
         } else if (id == R.id.nav_attendance) {
             startActivity(new Intent(this,attendance.class));
+            finish();
         } else if (id == R.id.nav_grade) {
             startActivity(new Intent(this,grade.class));
+            finish();
         } else if (id == R.id.nav_timetable) {
             startActivity(new Intent(this,timetable.class));
+            finish();
         } else if (id == R.id.nav_activities) {
             startActivity(new Intent(this,activities.class));
+            finish();
         } else if (id == R.id.nav_tracking) {
             startActivity(new Intent(this,tracking.class));
+            finish();
         } else if (id == R.id.nav_supervisor) {
             startActivity(new Intent(this,callSupervisor.class));
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_tracking);
