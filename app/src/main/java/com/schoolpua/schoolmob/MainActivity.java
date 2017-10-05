@@ -45,27 +45,30 @@ public class MainActivity extends AppCompatActivity {
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users/"+inputEmail.getText());
-                database.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Map<String, String> map = (Map<String, String>) dataSnapshot.getValue();
-                        String pass=map.get("password");
-                        if (pass.equals(inputPassword.getText().toString())){
-                            startActivity(new Intent(MainActivity.this,home.class));
-                            finish();
-                        }else{
-                            Toast.makeText(MainActivity.this,"invalid username or password try again",Toast.LENGTH_LONG).show();
-                            inputPassword.setText("");
+                if(inputEmail.getText().toString().matches("")||inputPassword.getText().toString().matches("")){
+                    Toast.makeText(MainActivity.this,"please insert username & password",Toast.LENGTH_LONG).show();
+                }else{
+                    DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users/"+inputEmail.getText());
+                    database.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Map<String, String> map = (Map<String, String>) dataSnapshot.getValue();
+                            String pass=map.get("password");
+                            if (pass.equals(inputPassword.getText().toString())){
+                                startActivity(new Intent(MainActivity.this,home.class));
+                                finish();
+                            }else{
+                                Toast.makeText(MainActivity.this,"invalid username or password try again",Toast.LENGTH_LONG).show();
+                                inputPassword.setText("");
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
-
+                        }
+                    });
+                }
 
             }
         });
