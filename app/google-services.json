@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "41063227899-8bi7n614140lpt2v2g5fu8u4j6if0mq0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.schoolpua.schoolmob",
+            "certificate_hash": "5b379a825c2f582b8746e153d78fa70e79edbbd9"
+          }
+        },
+        {
           "client_id": "41063227899-khha76fokeot9lrv2j73ccapf51pqoup.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

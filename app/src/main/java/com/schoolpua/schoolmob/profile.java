@@ -10,9 +10,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
 
 public class profile extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    TextView proName,proClass,proBusNum,proBusSuper,proBusSuperNum;
+    DatabaseReference database,database2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +42,42 @@ public class profile extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_profile);
         navigationView.setNavigationItemSelectedListener(this);
+
+        proName=(TextView)findViewById(R.id.profileName);
+        proClass=(TextView)findViewById(R.id.profileClass);
+        proBusNum=(TextView)findViewById(R.id.profileBusNum);
+        proBusSuper=(TextView)findViewById(R.id.profileBusSupervisor);
+        proBusSuperNum=(TextView)findViewById(R.id.profileBusSupervisorNum);
+
+        database = FirebaseDatabase.getInstance().getReference().child("student/"+childrenAdapter.studentId);
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map<String,String> map= (Map<String, String>) dataSnapshot.getValue();
+                proName.setText("Name\n"+map.get("name"));
+                proClass.setText("Class\n"+map.get("class"));
+                proBusNum.setText("Bus Number\n"+map.get("bus number"));
+                database2 = FirebaseDatabase.getInstance().getReference().child("bus/"+map.get("bus number"));
+                database2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Map<String,String> map= (Map<String, String>) dataSnapshot.getValue();
+                        proBusSuper.setText("Bus Supervisor\n"+map.get("supervisor"));
+                        proBusSuperNum.setText("Supervisor Phone\n"+map.get("superPhone"));
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(profile.this,"canceled",Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
@@ -58,8 +107,8 @@ public class profile extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings_profile) {
-            startActivity(new Intent(this,home.class));
-            finish();
+            startActivity(new Intent(profile.this,home.class));
+            profile.this.finish();
             return true;
         }else if(id == R.id.action_settings_logout){
             startActivity(new Intent(this,MainActivity.class));
