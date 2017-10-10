@@ -14,11 +14,7 @@
     <string name="hint_email">Enter Email Address</string>
     <string name="hint_password">Enter your password</string>
     <string name="btn_login">Login</string>
-    <string-array name="attendence_array">
-        <item>Day</item>
-        <item>Week</item>
-        <item>Month</item>
-    </string-array>
+
     <string name="title_activity_attendance">attendance</string>
     <string name="title_activity_grade">grade</string>
 
