@@ -26,6 +26,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -69,10 +70,8 @@ public class attendance extends AppCompatActivity
                 for (int i=1;i<=dataSnapshot.getChildrenCount();i++) {
                     // TODO: handle the post
                     DataSnapshot dataSnapshot1=level0Nodes.iterator().next();
-                    Map<ArrayList<String>,String> map= (Map<ArrayList<String>,String>) dataSnapshot1.getValue();
                     date.add(dataSnapshot1.getKey());
-                    attendarraylist.add((ArrayList<String>) map.values());
-                    Log.v("lolo",attendarraylist.toString());
+                    attendarraylist.add((ArrayList<String>) dataSnapshot1.getValue());
                 }
                 attendAdapter attendadapter=new attendAdapter(attendance.this,attendarraylist,date);
                 attendList.setAdapter(attendadapter);
