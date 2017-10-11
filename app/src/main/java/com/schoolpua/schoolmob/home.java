@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,9 +39,9 @@ public class home extends AppCompatActivity {
 
     Button btn_child;
 
-    ArrayList<String> names,classs,pp,studentIds;
-    //ArrayList<Uri>pp;
-    static StorageReference mStorageRef;
+    ArrayList<String> names,classs,studentIds;
+    ArrayList<Uri>pp;
+    StorageReference mStorageRef;
     ListView childlist;
     DatabaseReference database;
     @Override
@@ -50,10 +52,10 @@ public class home extends AppCompatActivity {
         childlist=(ListView)findViewById(R.id.childlist);
         names=new ArrayList<String>();
         classs=new ArrayList<String>();
-        pp=new ArrayList<String>();
+        pp=new ArrayList<Uri>();
         studentIds=new ArrayList<String>();
 
-        //mStorageRef = FirebaseStorage.getInstance().getReference().child("parents/"+MainActivity.phone);
+        mStorageRef = FirebaseStorage.getInstance().getReference().child("users");
         database = FirebaseDatabase.getInstance().getReference().child("parents/"+MainActivity.phone+"/children");
         database.addValueEventListener(new ValueEventListener() {
             @Override
@@ -66,15 +68,13 @@ public class home extends AppCompatActivity {
                     names.add(map.get("name"));
                     classs.add(map.get("class"));
                     studentIds.add(dataSnapshot1.getKey());
-                    /*
-                    mStorageRef.child(String.valueOf(i)+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    /*mStorageRef.child("pins.JPG").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Log.d("lolo",uri.toString());
-                            pp.add(uri.toString());
+                            pp.add(uri);
+                            Log.d("momo",pp.get(0).toString());
                         }
                     });*/
-
                 }
                 childrenAdapter childrenadapter=new childrenAdapter(home.this,names,classs,pp,studentIds);
                 childlist.setAdapter(childrenadapter);

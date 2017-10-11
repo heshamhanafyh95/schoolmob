@@ -10,6 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import android.net.Uri;
+import com.squareup.picasso.Picasso;
+
+
 
 
 /**
@@ -18,8 +22,8 @@ import java.util.ArrayList;
 
 public class childrenAdapter extends ArrayAdapter<String> implements View.OnClickListener{
 
-    private ArrayList<String> names,classes,images,studentIds;
-    //private ArrayList<Uri>images;
+    private ArrayList<String> names,classes,studentIds;
+    private ArrayList<Uri>images;
     Context mContext;
     static String studentId;
 
@@ -29,7 +33,7 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
         ImageView pp;
     }
 
-    public childrenAdapter(Context context, ArrayList<String> names, ArrayList<String> classes, ArrayList<String> images,ArrayList<String> studentIds) {
+    public childrenAdapter(Context context, ArrayList<String> names, ArrayList<String> classes, ArrayList<Uri> images, ArrayList<String> studentIds) {
         super(context, R.layout.childview, names);
         this.names = names;
         this.classes = classes;
@@ -46,15 +50,11 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
         switch (v.getId())
         {
             case R.id.childPic:
-                /*Intent homeIntent=new Intent(mContext,profile.class);
-                homeIntent.putExtra("studentId",studentIds.get(position));*/
                 studentId=studentIds.get(position);
                 mContext.startActivity(new Intent(mContext,profile.class));
                 break;
         }
     }
-
-    private int lastPosition = 0;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -80,13 +80,12 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
             result=convertView;
         }
 
-        lastPosition = position;
 
         viewHolder.name.setText(names.get(position));
         viewHolder.classs.setText(classes.get(position));
         viewHolder.pp.setOnClickListener(this);
         viewHolder.pp.setTag(position);
-        //Picasso.with(mContext).load(images.get(position)).into(viewHolder.pp);
+        //Picasso.with(mContext).load(images.get(position)).centerCrop().fit().into(viewHolder.pp);
         return convertView;
     }
 }
