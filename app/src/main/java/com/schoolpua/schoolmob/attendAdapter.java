@@ -37,7 +37,7 @@ public class attendAdapter extends ArrayAdapter<String>{
     }
 
     public attendAdapter(Context context, ArrayList<ArrayList<String>> attendance, ArrayList<String> date) {
-        super(context, R.layout.childview, date);
+        super(context, R.layout.attendance, date);
         this.attendance = attendance;
         this.mContext=context;
         this.date=date;

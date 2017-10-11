@@ -16,6 +16,6 @@
     <string name="btn_login">Login</string>
 
     <string name="title_activity_attendance">attendance</string>
-    <string name="title_activity_grade">grade</string>
+    <string name="title_activity_grade">Grade</string>
 
 </resources>
