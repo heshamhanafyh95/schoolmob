@@ -10,9 +10,28 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ArrayAdapter;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
 
 public class grade extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private ArrayList<ArrayList<String>> gradeOfsubject;
+    private ArrayList<String> subject;
+
+    DatabaseReference database;
+    TextView subjects,finalExam,midExam,quizz;
+    ListView subjectList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +48,39 @@ public class grade extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_grade);
         navigationView.setNavigationItemSelectedListener(this);
+
+        subjectList=(ListView)findViewById(R.id.listsubject);
+
+        subjects=(TextView)findViewById(R.id.gradeSubject);
+        finalExam=(TextView)findViewById(R.id.gradefinal);
+        midExam=(TextView)findViewById(R.id.grademid);
+        quizz=(TextView)findViewById(R.id.gradequiz);
+
+        gradeOfsubject=new ArrayList<ArrayList<String>>();
+        subject=new ArrayList<String>();
+
+        database = FirebaseDatabase.getInstance().getReference().child("student/"+childrenAdapter.studentId+"/subjects");
+
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> level0Nodes = dataSnapshot.getChildren();
+                for (int i=1;i<=dataSnapshot.getChildrenCount();i++) {
+                    // TODO: handle the post
+                    DataSnapshot dataSnapshot1=level0Nodes.iterator().next();
+                    subject.add(dataSnapshot1.getKey());
+                    gradeOfsubject.add((ArrayList<String>) dataSnapshot1.getValue());
+
+                }
+                gradeAdapter gradeadapter=new gradeAdapter(grade.this,gradeOfsubject,subject);
+                subjectList.setAdapter(gradeadapter);
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(grade.this,"canceled",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
