@@ -36,13 +36,13 @@ public class gradeAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        gradeAdapter.ViewHolder viewHolder;
+        ViewHolder viewHolder;
 
         final View result;
 
         if (convertView == null) {
 
-            viewHolder = new gradeAdapter.ViewHolder();
+            viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.grades, parent, false);
             viewHolder.subject = (TextView) convertView.findViewById(R.id.gradeSubject);
@@ -55,16 +55,14 @@ public class gradeAdapter extends ArrayAdapter<String> {
 
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (gradeAdapter.ViewHolder) convertView.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
             result=convertView;
         }
 
-
         viewHolder.subject.setText(subject.get(position));
-        viewHolder.final_exam.setText(grade.get(position).get(1));
-        viewHolder.mid.setText(grade.get(position).get(2));
-        viewHolder.quizzes.setText(grade.get(position).get(3));
-
+        viewHolder.final_exam.setText(grade.get(position).get(0));
+        viewHolder.mid.setText(grade.get(position).get(1));
+        viewHolder.quizzes.setText(grade.get(position).get(2));
 
         return convertView;
     }

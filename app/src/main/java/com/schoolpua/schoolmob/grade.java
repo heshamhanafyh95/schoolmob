@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class grade extends AppCompatActivity
@@ -30,7 +32,7 @@ public class grade extends AppCompatActivity
     private ArrayList<String> subject;
 
     DatabaseReference database;
-    TextView subjects,finalExam,midExam,quizz;
+
     ListView subjectList;
 
     @Override
@@ -49,15 +51,10 @@ public class grade extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_grade);
         navigationView.setNavigationItemSelectedListener(this);
 
-        subjectList=(ListView)findViewById(R.id.listsubject);
-
-        subjects=(TextView)findViewById(R.id.gradeSubject);
-        finalExam=(TextView)findViewById(R.id.gradefinal);
-        midExam=(TextView)findViewById(R.id.grademid);
-        quizz=(TextView)findViewById(R.id.gradequiz);
-
         gradeOfsubject=new ArrayList<ArrayList<String>>();
         subject=new ArrayList<String>();
+
+        subjectList=(ListView)findViewById(R.id.listsubject);
 
         database = FirebaseDatabase.getInstance().getReference().child("student/"+childrenAdapter.studentId+"/subjects");
 
@@ -68,9 +65,13 @@ public class grade extends AppCompatActivity
                 for (int i=1;i<=dataSnapshot.getChildrenCount();i++) {
                     // TODO: handle the post
                     DataSnapshot dataSnapshot1=level0Nodes.iterator().next();
+                    Map<String,String> map= (Map<String, String>) dataSnapshot1.getValue();
                     subject.add(dataSnapshot1.getKey());
-                    gradeOfsubject.add((ArrayList<String>) dataSnapshot1.getValue());
-
+                    ArrayList<String>temp=new ArrayList<String>();
+                    temp.add(map.get("final"));
+                    temp.add(map.get("mid"));
+                    temp.add(map.get("quizzes"));
+                    gradeOfsubject.add(temp);
                 }
                 gradeAdapter gradeadapter=new gradeAdapter(grade.this,gradeOfsubject,subject);
                 subjectList.setAdapter(gradeadapter);
