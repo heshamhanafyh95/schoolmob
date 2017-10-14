@@ -34,16 +34,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class home extends AppCompatActivity {
 
     Button btn_child;
-
     ArrayList<String> names,classs,studentIds;
-    ArrayList<Uri>pp;
+    ArrayList<String> profilePic;
     StorageReference mStorageRef;
     ListView childlist;
     DatabaseReference database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,7 @@ public class home extends AppCompatActivity {
         childlist=(ListView)findViewById(R.id.childlist);
         names=new ArrayList<String>();
         classs=new ArrayList<String>();
-        pp=new ArrayList<Uri>();
+        profilePic=new ArrayList<String>();
         studentIds=new ArrayList<String>();
 
         mStorageRef = FirebaseStorage.getInstance().getReference().child("users");
@@ -60,7 +61,7 @@ public class home extends AppCompatActivity {
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> level0Nodes = dataSnapshot.getChildren();
+                final Iterable<DataSnapshot> level0Nodes = dataSnapshot.getChildren();
                 for (int i=1;i<=dataSnapshot.getChildrenCount();i++) {
                     // TODO: handle the post
                     DataSnapshot dataSnapshot1=level0Nodes.iterator().next();
@@ -68,15 +69,16 @@ public class home extends AppCompatActivity {
                     names.add(map.get("name"));
                     classs.add(map.get("class"));
                     studentIds.add(dataSnapshot1.getKey());
-                    /*mStorageRef.child("pins.JPG").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    mStorageRef.child("1/"+dataSnapshot1.getKey()+".JPG").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                         @Override
-                        public void onSuccess(Uri uri) {
-                            pp.add(uri);
-                            Log.d("momo",pp.get(0).toString());
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            profilePic.add(task.getResult().toString());
+                            Log.v("momo2", profilePic.toString());
                         }
-                    });*/
+                    });
                 }
-                childrenAdapter childrenadapter=new childrenAdapter(home.this,names,classs,pp,studentIds);
+                Log.v("momo",profilePic.toString());
+                childrenAdapter childrenadapter=new childrenAdapter(home.this,profilePic,names,classs,studentIds);
                 childlist.setAdapter(childrenadapter);
             }
             @Override
@@ -84,7 +86,6 @@ public class home extends AppCompatActivity {
                 Toast.makeText(home.this,"canceled",Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
 

@@ -3,6 +3,7 @@ package com.schoolpua.schoolmob;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import com.squareup.picasso.Picasso;
 public class childrenAdapter extends ArrayAdapter<String> implements View.OnClickListener{
 
     private ArrayList<String> names,classes,studentIds;
-    private ArrayList<Uri>images;
+    private ArrayList<String> images;
     Context mContext;
     static String studentId;
 
@@ -33,8 +34,8 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
         ImageView pp;
     }
 
-    public childrenAdapter(Context context, ArrayList<String> names, ArrayList<String> classes, ArrayList<Uri> images, ArrayList<String> studentIds) {
-        super(context, R.layout.childview, names);
+    public childrenAdapter(Context context,ArrayList<String> images, ArrayList<String> names, ArrayList<String> classes, ArrayList<String> studentIds) {
+        super(context, R.layout.childview,classes);
         this.names = names;
         this.classes = classes;
         this.mContext=context;
@@ -85,7 +86,8 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
         viewHolder.classs.setText(classes.get(position));
         viewHolder.pp.setOnClickListener(this);
         viewHolder.pp.setTag(position);
-        //Picasso.with(mContext).load(images.get(position)).centerCrop().fit().into(viewHolder.pp);
+        //viewHolder.pp.setImageURI(images1);
+        //Picasso.with(mContext).load(images.get(position)).into(viewHolder.pp);
         return convertView;
     }
 }
