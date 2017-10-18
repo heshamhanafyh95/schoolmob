@@ -51,15 +51,28 @@
             android:layout_margin="15dp"
             android:textColor="#18777e"
             android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/profileBusSupervisorNum"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textStyle="italic"
-            android:layout_margin="15dp"
-            android:textColor="#18777e"
-            android:textSize="20sp"/>
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@+id/profileBusSupervisorNum"
+                android:background="@drawable/callicon"
+                android:id="@+id/callSupervisorBtn"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/profileBusSupervisorNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:layout_margin="15dp"
+                android:textColor="#18777e"
+                android:textSize="20sp"
+                android:text="sadfsadffsasadfds"/>
+
+        </RelativeLayout>
     </LinearLayout>
 
 </RelativeLayout>

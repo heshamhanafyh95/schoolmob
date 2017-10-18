@@ -1,9 +1,7 @@
 package com.schoolpua.schoolmob;
 
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
-import android.os.UserHandle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,30 +9,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class home extends AppCompatActivity {
 
@@ -55,13 +42,15 @@ public class home extends AppCompatActivity {
         classs=new ArrayList<String>();
         profilePic=new ArrayList<String>();
         studentIds=new ArrayList<String>();
-
+        final int flag[]=new int[1];
         mStorageRef = FirebaseStorage.getInstance().getReference().child("users");
         database = FirebaseDatabase.getInstance().getReference().child("parents/"+MainActivity.phone+"/children");
+
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final Iterable<DataSnapshot> level0Nodes = dataSnapshot.getChildren();
+                Iterable<DataSnapshot> level0Nodes = dataSnapshot.getChildren();
+                flag[0]=(int)dataSnapshot.getChildrenCount();
                 for (int i=1;i<=dataSnapshot.getChildrenCount();i++) {
                     // TODO: handle the post
                     DataSnapshot dataSnapshot1=level0Nodes.iterator().next();
@@ -69,17 +58,22 @@ public class home extends AppCompatActivity {
                     names.add(map.get("name"));
                     classs.add(map.get("class"));
                     studentIds.add(dataSnapshot1.getKey());
-                    mStorageRef.child("1/"+dataSnapshot1.getKey()+".JPG").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    //profilePic.add(mStorageRef.child("1/"+dataSnapshot1.getKey()+".JPG").getDownloadUrl().getResult().toString());
+                    mStorageRef.child("1/"+dataSnapshot1.getKey()+".jpg").getDownloadUrl().addOnCompleteListener(home.this,new OnCompleteListener<Uri>() {
                         @Override
                         public void onComplete(@NonNull Task<Uri> task) {
                             profilePic.add(task.getResult().toString());
                             Log.v("momo2", profilePic.toString());
+                            if (profilePic.size()>=flag[0]){
+                                childrenAdapter childrenadapter=new childrenAdapter(home.this,profilePic,names,classs,studentIds);
+                                childlist.setAdapter(childrenadapter);
+                            }
                         }
                     });
                 }
                 Log.v("momo",profilePic.toString());
-                childrenAdapter childrenadapter=new childrenAdapter(home.this,profilePic,names,classs,studentIds);
-                childlist.setAdapter(childrenadapter);
+                /*childrenAdapter childrenadapter=new childrenAdapter(home.this,profilePic,names,classs,studentIds);
+                childlist.setAdapter(childrenadapter);*/
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

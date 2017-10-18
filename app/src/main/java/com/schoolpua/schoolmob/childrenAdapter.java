@@ -87,7 +87,7 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
         viewHolder.pp.setOnClickListener(this);
         viewHolder.pp.setTag(position);
         //viewHolder.pp.setImageURI(images1);
-        //Picasso.with(mContext).load(images.get(position)).into(viewHolder.pp);
+        Picasso.with(mContext).load(images.get(position)).into(viewHolder.pp);
         return convertView;
     }
 }

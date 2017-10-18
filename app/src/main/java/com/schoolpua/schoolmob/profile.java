@@ -1,6 +1,7 @@
 package com.schoolpua.schoolmob;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +28,9 @@ public class profile extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView proName,proClass,proBusNum,proBusSuper,proBusSuperNum;
+    Button callSupervisorBtn;
     DatabaseReference database,database2;
-
+    Map<String,String> map1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,7 @@ public class profile extends AppCompatActivity
         proBusNum=(TextView)findViewById(R.id.profileBusNum);
         proBusSuper=(TextView)findViewById(R.id.profileBusSupervisor);
         proBusSuperNum=(TextView)findViewById(R.id.profileBusSupervisorNum);
+        callSupervisorBtn=(Button)findViewById(R.id.callSupervisorBtn);
 
         database = FirebaseDatabase.getInstance().getReference().child("student/"+childrenAdapter.studentId);
         database.addValueEventListener(new ValueEventListener() {
@@ -61,9 +66,16 @@ public class profile extends AppCompatActivity
                 database2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Map<String,String> map= (Map<String, String>) dataSnapshot.getValue();
-                        proBusSuper.setText("Bus Supervisor\n"+map.get("supervisor"));
-                        proBusSuperNum.setText("Supervisor Phone\n"+map.get("superPhone"));
+                        map1= (Map<String, String>) dataSnapshot.getValue();
+                        proBusSuper.setText("Bus Supervisor\n"+map1.get("supervisor"));
+                        proBusSuperNum.setText("Supervisor Phone\n"+map1.get("superPhone"));
+                        callSupervisorBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",map1.get("superPhone") , null));
+                                startActivity(intent);
+                            }
+                        });
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
