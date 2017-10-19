@@ -68,9 +68,9 @@ public class grade extends AppCompatActivity
                     Map<String,String> map= (Map<String, String>) dataSnapshot1.getValue();
                     subject.add(dataSnapshot1.getKey());
                     ArrayList<String>temp=new ArrayList<String>();
-                    temp.add(map.get("final"));
-                    temp.add(map.get("mid"));
-                    temp.add(map.get("quizzes"));
+                    temp.add(String.valueOf(map.get("final")));
+                    temp.add(String.valueOf(map.get("mid")));
+                    temp.add(String.valueOf(map.get("quizzes")));
                     gradeOfsubject.add(temp);
                 }
                 gradeAdapter gradeadapter=new gradeAdapter(grade.this,gradeOfsubject,subject);
