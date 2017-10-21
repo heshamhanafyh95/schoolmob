@@ -17,34 +17,50 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="casual"
             android:text="subject"
             android:textAlignment="center"
-            android:layout_weight="1"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textColor="#a82487"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="casual"
             android:text="quiz"
             android:textAlignment="center"
-            android:layout_weight="1"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textColor="#a82487"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="casual"
             android:text="mid"
+            android:textColor="#a82487"
             android:textAlignment="center"
-            android:layout_weight="1"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="casual"
             android:text="final"
             android:textAlignment="center"
-            android:layout_weight="1"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textColor="#a82487"
+            android:textStyle="bold" />
     </LinearLayout>
     <ListView
         android:layout_width="match_parent"

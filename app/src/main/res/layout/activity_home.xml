@@ -9,6 +9,16 @@
     android:orientation="vertical"
     android:columnCount="2"
     tools:context="com.schoolpua.schoolmob.home">
+    <TextView
+        android:id="@+id/childrenNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:textAlignment="center"
+        android:text="Your children"
+        android:textStyle="bold"
+        android:textColor="#18777e"
+        android:textSize="25sp" />
 
     <ListView
         android:id="@+id/childlist"

@@ -7,75 +7,88 @@
     android:layout_margin="16dp">
 
     <TextView
+        android:id="@+id/dateAttend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="casual"
         android:text="date"
+        android:textSize="18sp"
+        android:textColor="#a82487"
         android:textAlignment="center"
-        android:id="@+id/dateAttend"/>
+        android:textStyle="bold"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
+            android:id="@+id/lessonAttend1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="1"
-            android:textAlignment="center"
-            android:id="@+id/lessonAttend1"/>
+            android:textColor="#18777e"
+            android:textAlignment="center" />
         <TextView
+            android:id="@+id/lessonAttend2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="1"
-            android:textAlignment="center"
-            android:id="@+id/lessonAttend2"/>
+            android:textColor="#18777e"
+            android:textAlignment="center"/>
         <TextView
+            android:id="@+id/lessonAttend3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="1"
-            android:textAlignment="center"
-            android:id="@+id/lessonAttend3"/>
+            android:textColor="#18777e"
+            android:textAlignment="center"/>
         <TextView
+            android:id="@+id/lessonAttend4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="1"
-            android:textAlignment="center"
-            android:id="@+id/lessonAttend4"/>
+            android:textColor="#18777e"
+            android:textAlignment="center"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:id="@+id/lessonAttend5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="1"
-            android:textAlignment="center"
-            android:id="@+id/lessonAttend5"/>
+            android:textColor="#18777e"
+            android:textAlignment="center"/>
         <TextView
+            android:id="@+id/lessonAttend6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="1"
-            android:textAlignment="center"
-            android:id="@+id/lessonAttend6"/>
+            android:textColor="#18777e"
+            android:textAlignment="center"/>
         <TextView
+            android:id="@+id/lessonAttend7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="1"
-            android:textAlignment="center"
-            android:id="@+id/lessonAttend7"/>
+            android:textColor="#18777e"
+            android:textAlignment="center"/>
         <TextView
+            android:id="@+id/lessonAttend8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="1"
-            android:textAlignment="center"
-            android:id="@+id/lessonAttend8"/>
+            android:textColor="#18777e"
+            android:textAlignment="center"/>
     </LinearLayout>
 </LinearLayout>

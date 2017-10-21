@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:orientation="vertical">
+
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/childPic"
@@ -19,23 +20,27 @@
         android:id="@+id/childName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_toRightOf="@id/childPic"
         android:textSize="18sp"
         android:textStyle="bold"
         android:text="Name"
-        android:layout_margin="10dp">
+        android:textColor="#a82487"
+        android:fontFamily="casual">
     </TextView>
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/childClass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_toRightOf="@id/childPic"
         android:layout_below="@id/childName"
         android:textSize="18sp"
         android:textStyle="bold"
         android:text="Class"
-        android:layout_margin="10dp">
+        android:textColor="#a82487"
+        android:fontFamily="casual">
     </TextView>
 
 </RelativeLayout>

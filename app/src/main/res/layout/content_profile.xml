@@ -15,42 +15,50 @@
         android:orientation="vertical"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true">
+
         <TextView
             android:id="@+id/profileName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textStyle="italic"
             android:layout_margin="15dp"
+            android:fontFamily="casual"
+            android:textAlignment="center"
             android:textColor="#18777e"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="italic" />
+
         <TextView
             android:id="@+id/profileClass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textStyle="italic"
             android:layout_margin="15dp"
+            android:fontFamily="casual"
+            android:textAlignment="center"
             android:textColor="#18777e"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textStyle="italic" />
+
         <TextView
             android:id="@+id/profileBusNum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textStyle="italic"
             android:layout_margin="15dp"
+            android:fontFamily="casual"
+            android:textAlignment="center"
             android:textColor="#18777e"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textStyle="italic" />
+
         <TextView
             android:id="@+id/profileBusSupervisor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textStyle="italic"
             android:layout_margin="15dp"
+            android:fontFamily="casual"
+            android:textAlignment="center"
             android:textColor="#18777e"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textStyle="italic" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -61,16 +69,18 @@
                 android:background="@drawable/callicon"
                 android:id="@+id/callSupervisorBtn"
                 android:layout_centerVertical="true"/>
+
             <TextView
                 android:id="@+id/profileBusSupervisorNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textStyle="italic"
                 android:layout_margin="15dp"
+                android:fontFamily="casual"
+                android:text="sadfsadffsasadfds"
+                android:textAlignment="center"
                 android:textColor="#18777e"
                 android:textSize="20sp"
-                android:text="sadfsadffsasadfds"/>
+                android:textStyle="italic" />
 
         </RelativeLayout>
     </LinearLayout>
