@@ -62,6 +62,7 @@ public class profile extends AppCompatActivity
                 proName.setText("Name\n"+map.get("name"));
                 proClass.setText("Class\n"+map.get("class"));
                 proBusNum.setText("Bus Number\n"+map.get("bus number"));
+
                 database2 = FirebaseDatabase.getInstance().getReference().child("bus/"+map.get("bus number"));
                 database2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
