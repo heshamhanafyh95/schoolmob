@@ -54,7 +54,7 @@ public class profile extends AppCompatActivity
         proBusSuperNum=(TextView)findViewById(R.id.profileBusSupervisorNum);
         callSupervisorBtn=(Button)findViewById(R.id.callSupervisorBtn);
 
-        database = FirebaseDatabase.getInstance().getReference().child("student/"+childrenAdapter.studentId);
+        database = FirebaseDatabase.getInstance().getReference().child("students/"+childrenAdapter.studentId);
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

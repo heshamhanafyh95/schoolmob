@@ -43,7 +43,7 @@ public class home extends AppCompatActivity {
         profilePic=new ArrayList<String>();
         studentIds=new ArrayList<String>();
         final int flag[]=new int[1];
-        mStorageRef = FirebaseStorage.getInstance().getReference().child("users");
+        mStorageRef = FirebaseStorage.getInstance().getReference().child("students/"+MainActivity.phone);
         database = FirebaseDatabase.getInstance().getReference().child("parents/"+MainActivity.phone+"/children");
 
         database.addValueEventListener(new ValueEventListener() {
@@ -58,8 +58,7 @@ public class home extends AppCompatActivity {
                     names.add(map.get("name"));
                     classs.add(map.get("class"));
                     studentIds.add(dataSnapshot1.getKey());
-                    //profilePic.add(mStorageRef.child("1/"+dataSnapshot1.getKey()+".JPG").getDownloadUrl().getResult().toString());
-                    mStorageRef.child("1/"+dataSnapshot1.getKey()+".jpg").getDownloadUrl().addOnCompleteListener(home.this,new OnCompleteListener<Uri>() {
+                    mStorageRef.child(dataSnapshot1.getKey()+".jpg").getDownloadUrl().addOnCompleteListener(home.this,new OnCompleteListener<Uri>() {
                         @Override
                         public void onComplete(@NonNull Task<Uri> task) {
                             profilePic.add(task.getResult().toString());

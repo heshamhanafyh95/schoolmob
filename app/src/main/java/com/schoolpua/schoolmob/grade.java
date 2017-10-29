@@ -56,7 +56,7 @@ public class grade extends AppCompatActivity
 
         subjectList=(ListView)findViewById(R.id.listsubject);
 
-        database = FirebaseDatabase.getInstance().getReference().child("student/"+childrenAdapter.studentId+"/subjects");
+        database = FirebaseDatabase.getInstance().getReference().child("students/"+childrenAdapter.studentId+"/subjects");
 
         database.addValueEventListener(new ValueEventListener() {
             @Override

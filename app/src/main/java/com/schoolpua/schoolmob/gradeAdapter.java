@@ -60,9 +60,9 @@ public class gradeAdapter extends ArrayAdapter<String> {
         }
 
         viewHolder.subject.setText(subject.get(position));
-        viewHolder.final_exam.setText(grade.get(position).get(0));
-        viewHolder.mid.setText(grade.get(position).get(1));
-        viewHolder.quizzes.setText(grade.get(position).get(2));
+        viewHolder.final_exam.setText(""+grade.get(position).get(0));
+        viewHolder.mid.setText(""+grade.get(position).get(1));
+        viewHolder.quizzes.setText(""+grade.get(position).get(2));
 
         return convertView;
     }

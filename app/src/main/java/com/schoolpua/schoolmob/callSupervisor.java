@@ -42,7 +42,7 @@ public class callSupervisor extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_call_supervisor);
         navigationView.setNavigationItemSelectedListener(this);
 
-        database = FirebaseDatabase.getInstance().getReference().child("student/"+childrenAdapter.studentId);
+        database = FirebaseDatabase.getInstance().getReference().child("students/"+childrenAdapter.studentId);
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
