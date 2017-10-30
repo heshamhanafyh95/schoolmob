@@ -51,11 +51,6 @@ public class attendance extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         attendList=(ListView)findViewById(R.id.listAttendence);
-<<<<<<< HEAD
-=======
-        database = FirebaseDatabase.getInstance().getReference().child("students/"+childrenAdapter.studentId+"/attendance");
->>>>>>> 7f4850a56a429f185632da0823a3ff3d2bb3a646
-
         parents = FirebaseFirestore.getInstance().collection("students").document(childrenAdapter.studentId);
         attendarraylist=new ArrayList<ArrayList<String>>();
         date=new ArrayList<String>();

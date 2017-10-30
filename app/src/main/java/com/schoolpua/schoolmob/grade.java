@@ -53,14 +53,8 @@ public class grade extends AppCompatActivity
 
         subjectList=(ListView)findViewById(R.id.listsubject);
 
-<<<<<<< HEAD
         student = FirebaseFirestore.getInstance().collection("students").document(childrenAdapter.studentId);
         student.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-=======
-        database = FirebaseDatabase.getInstance().getReference().child("students/"+childrenAdapter.studentId+"/subjects");
-
-        database.addValueEventListener(new ValueEventListener() {
->>>>>>> 7f4850a56a429f185632da0823a3ff3d2bb3a646
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 map = (Map<String, Object>) task.getResult().getData().get("subjects");
@@ -78,6 +72,7 @@ public class grade extends AppCompatActivity
                 gradeAdapter gradeadapter=new gradeAdapter(grade.this,gradeOfsubject,subject);
                 subjectList.setAdapter(gradeadapter);
             }
+
         });
     }
 

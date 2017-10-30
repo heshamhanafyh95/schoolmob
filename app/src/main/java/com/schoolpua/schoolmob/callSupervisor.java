@@ -39,31 +39,8 @@ public class callSupervisor extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_call_supervisor);
         navigationView.setNavigationItemSelectedListener(this);
 
-<<<<<<< HEAD
         student = FirebaseFirestore.getInstance().collection("students").document(childrenAdapter.studentId);
         student.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-=======
-        database = FirebaseDatabase.getInstance().getReference().child("students/"+childrenAdapter.studentId);
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String,String> map= (Map<String, String>) dataSnapshot.getValue();
-                database2 = FirebaseDatabase.getInstance().getReference().child("bus/"+map.get("bus number"));
-                database2.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Map<String,String> map1= (Map<String, String>) dataSnapshot.getValue();
-                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",map1.get("superPhone") , null));
-                        startActivity(intent);
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-            }
->>>>>>> 7f4850a56a429f185632da0823a3ff3d2bb3a646
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 map= documentSnapshot.getData();

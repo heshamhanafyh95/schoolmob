@@ -51,13 +51,8 @@ public class profile extends AppCompatActivity
         proBusSuperNum=(TextView)findViewById(R.id.profileBusSupervisorNum);
         callSupervisorBtn=(Button)findViewById(R.id.callSupervisorBtn);
 
-<<<<<<< HEAD
         student = FirebaseFirestore.getInstance().collection("students").document(childrenAdapter.studentId);
         student.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-=======
-        database = FirebaseDatabase.getInstance().getReference().child("students/"+childrenAdapter.studentId);
-        database.addValueEventListener(new ValueEventListener() {
->>>>>>> 7f4850a56a429f185632da0823a3ff3d2bb3a646
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 map= documentSnapshot.getData();

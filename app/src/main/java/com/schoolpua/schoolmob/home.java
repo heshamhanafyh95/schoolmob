@@ -41,56 +41,30 @@ public class home extends AppCompatActivity {
         studentIds=new ArrayList<String>();
         final int flag[]=new int[1];
         mStorageRef = FirebaseStorage.getInstance().getReference().child("students/"+MainActivity.phone);
-<<<<<<< HEAD
         parents = FirebaseFirestore.getInstance().collection("parents").document(String.valueOf(MainActivity.phone));
         parents.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        map = (Map<String, Object>) task.getResult().getData().get("children");
-                        for (int i=0;i<map.size();i++) {
-                            // TODO: handle the post
-                            String key=String.valueOf(map.keySet().toArray()[i]);
-                            Map<String,String> map1= (Map<String, String>) map.get(key);
-                            names.add(map1.get("name"));
-                            classs.add(map1.get("class"));
-                            studentIds.add(key);
-                            mStorageRef.child(key+".jpg").getDownloadUrl().addOnCompleteListener(home.this,new OnCompleteListener<Uri>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Uri> task) {
-                                    profilePic.add(task.getResult().toString());
-                                    if (profilePic.size()>=map.size()){
-                                        childrenAdapter childrenadapter=new childrenAdapter(home.this,profilePic,names,classs,studentIds);
-                                        childlist.setAdapter(childrenadapter);
-                                    }
-                                }
-                            });
-=======
-        database = FirebaseDatabase.getInstance().getReference().child("parents/"+MainActivity.phone+"/children");
-
-        database.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> level0Nodes = dataSnapshot.getChildren();
-                flag[0]=(int)dataSnapshot.getChildrenCount();
-                for (int i=1;i<=dataSnapshot.getChildrenCount();i++) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                map = (Map<String, Object>) task.getResult().getData().get("children");
+                for (int i=0;i<map.size();i++) {
                     // TODO: handle the post
-                    DataSnapshot dataSnapshot1=level0Nodes.iterator().next();
-                    Map<String,String> map= (Map<String, String>) dataSnapshot1.getValue();
-                    names.add(map.get("name"));
-                    classs.add(map.get("class"));
-                    studentIds.add(dataSnapshot1.getKey());
-                    mStorageRef.child(dataSnapshot1.getKey()+".jpg").getDownloadUrl().addOnCompleteListener(home.this,new OnCompleteListener<Uri>() {
+                    String key=String.valueOf(map.keySet().toArray()[i]);
+                    Map<String,String> map1= (Map<String, String>) map.get(key);
+                    names.add(map1.get("name"));
+                    classs.add(map1.get("class"));
+                    studentIds.add(key);
+                    mStorageRef.child(key+".jpg").getDownloadUrl().addOnCompleteListener(home.this,new OnCompleteListener<Uri>() {
                         @Override
                         public void onComplete(@NonNull Task<Uri> task) {
                             profilePic.add(task.getResult().toString());
-                            Log.v("momo2", profilePic.toString());
-                            if (profilePic.size()>=flag[0]){
+                            if (profilePic.size()>=map.size()){
                                 childrenAdapter childrenadapter=new childrenAdapter(home.this,profilePic,names,classs,studentIds);
                                 childlist.setAdapter(childrenadapter);
                             }
->>>>>>> 7f4850a56a429f185632da0823a3ff3d2bb3a646
                         }
-                    }
+                    });
+                }
+            }
         });
     }
 
