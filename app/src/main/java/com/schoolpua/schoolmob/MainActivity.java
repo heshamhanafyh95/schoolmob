@@ -2,16 +2,20 @@ package com.schoolpua.schoolmob;
 
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.*;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
 
@@ -40,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
                     phone=inputPhone.getText().toString();
 
-                    DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("parents/"+inputPhone.getText());
-                    database.addValueEventListener(new ValueEventListener() {
+                    DocumentReference parents = FirebaseFirestore.getInstance().collection("parents").document(String.valueOf(inputPhone.getText()));
+                    parents.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            Map<String, String> map = (Map<String, String>) dataSnapshot.getValue();
-                            if(dataSnapshot.exists()){
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            Map<String, Object> map = task.getResult().getData();
+                            if(task.isSuccessful()){
                                 if (map.get("password").equals(inputPassword.getText().toString())){
                                     startActivity(new Intent(MainActivity.this,home.class));
                                     finish();
@@ -57,10 +61,6 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this,"invalid username or password try again",Toast.LENGTH_LONG).show();
                                 inputPassword.setText("");
                             }
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
                         }
                     });
                 }

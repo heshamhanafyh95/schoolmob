@@ -11,21 +11,18 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
 
 public class callSupervisor extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    DatabaseReference database,database2;
+    Map<String,Object> map;
+    DocumentReference student;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +39,10 @@ public class callSupervisor extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_call_supervisor);
         navigationView.setNavigationItemSelectedListener(this);
 
+<<<<<<< HEAD
+        student = FirebaseFirestore.getInstance().collection("students").document(childrenAdapter.studentId);
+        student.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+=======
         database = FirebaseDatabase.getInstance().getReference().child("students/"+childrenAdapter.studentId);
         database.addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,9 +63,12 @@ public class callSupervisor extends AppCompatActivity
                 });
 
             }
+>>>>>>> 7f4850a56a429f185632da0823a3ff3d2bb3a646
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(callSupervisor.this,"canceled",Toast.LENGTH_SHORT).show();
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                map= documentSnapshot.getData();
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", String.valueOf(map.get("supervisor phone")), null));
+                startActivity(intent);
             }
         });
     }

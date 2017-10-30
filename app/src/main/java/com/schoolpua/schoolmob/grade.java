@@ -1,6 +1,7 @@
 package com.schoolpua.schoolmob;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -8,19 +9,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ArrayAdapter;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,8 +28,8 @@ public class grade extends AppCompatActivity
     private ArrayList<ArrayList<String>> gradeOfsubject;
     private ArrayList<String> subject;
 
-    DatabaseReference database;
-
+    Map<String,Object> map;
+    DocumentReference student;
     ListView subjectList;
 
     @Override
@@ -56,30 +53,30 @@ public class grade extends AppCompatActivity
 
         subjectList=(ListView)findViewById(R.id.listsubject);
 
+<<<<<<< HEAD
+        student = FirebaseFirestore.getInstance().collection("students").document(childrenAdapter.studentId);
+        student.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+=======
         database = FirebaseDatabase.getInstance().getReference().child("students/"+childrenAdapter.studentId+"/subjects");
 
         database.addValueEventListener(new ValueEventListener() {
+>>>>>>> 7f4850a56a429f185632da0823a3ff3d2bb3a646
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> level0Nodes = dataSnapshot.getChildren();
-                for (int i=1;i<=dataSnapshot.getChildrenCount();i++) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                map = (Map<String, Object>) task.getResult().getData().get("subjects");
+                for (int i=0;i<map.size();i++) {
                     // TODO: handle the post
-                    DataSnapshot dataSnapshot1=level0Nodes.iterator().next();
-                    Map<String,String> map= (Map<String, String>) dataSnapshot1.getValue();
-                    subject.add(dataSnapshot1.getKey());
+                    String key=String.valueOf(map.keySet().toArray()[i]);
+                    Map<String,String> map1= (Map<String, String>) map.get(key);
+                    subject.add(key);
                     ArrayList<String>temp=new ArrayList<String>();
-                    temp.add(String.valueOf(map.get("final")));
-                    temp.add(String.valueOf(map.get("mid")));
-                    temp.add(String.valueOf(map.get("quizzes")));
+                    temp.add(String.valueOf(map1.get("final")));
+                    temp.add(String.valueOf(map1.get("midterm")));
+                    temp.add(String.valueOf(map1.get("quizzes")));
                     gradeOfsubject.add(temp);
                 }
                 gradeAdapter gradeadapter=new gradeAdapter(grade.this,gradeOfsubject,subject);
                 subjectList.setAdapter(gradeadapter);
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(grade.this,"canceled",Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -14,13 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
 
@@ -29,8 +26,8 @@ public class profile extends AppCompatActivity
 
     TextView proName,proClass,proBusNum,proBusSuper,proBusSuperNum;
     Button callSupervisorBtn;
-    DatabaseReference database,database2;
-    Map<String,String> map1;
+    Map<String,Object> map;
+    DocumentReference student;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,43 +51,30 @@ public class profile extends AppCompatActivity
         proBusSuperNum=(TextView)findViewById(R.id.profileBusSupervisorNum);
         callSupervisorBtn=(Button)findViewById(R.id.callSupervisorBtn);
 
+<<<<<<< HEAD
+        student = FirebaseFirestore.getInstance().collection("students").document(childrenAdapter.studentId);
+        student.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+=======
         database = FirebaseDatabase.getInstance().getReference().child("students/"+childrenAdapter.studentId);
         database.addValueEventListener(new ValueEventListener() {
+>>>>>>> 7f4850a56a429f185632da0823a3ff3d2bb3a646
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String,String> map= (Map<String, String>) dataSnapshot.getValue();
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                map= documentSnapshot.getData();
                 proName.setText("Name\n"+map.get("name"));
                 proClass.setText("Class\n"+map.get("class"));
                 proBusNum.setText("Bus Number\n"+map.get("bus number"));
-
-                database2 = FirebaseDatabase.getInstance().getReference().child("bus/"+map.get("bus number"));
-                database2.addListenerForSingleValueEvent(new ValueEventListener() {
+                proBusSuper.setText("Bus Supervisor\n"+map.get("supervisor name"));
+                proBusSuperNum.setText("Supervisor Phone\n"+map.get("supervisor phone"));
+                callSupervisorBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        map1= (Map<String, String>) dataSnapshot.getValue();
-                        proBusSuper.setText("Bus Supervisor\n"+map1.get("supervisor"));
-                        proBusSuperNum.setText("Supervisor Phone\n"+map1.get("superPhone"));
-                        callSupervisorBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",map1.get("superPhone") , null));
-                                startActivity(intent);
-                            }
-                        });
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", String.valueOf(map.get("supervisor phone")), null));
+                        startActivity(intent);
                     }
                 });
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(profile.this,"canceled",Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override

@@ -2,34 +2,26 @@ package com.schoolpua.schoolmob;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class attendance extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,7 +31,8 @@ public class attendance extends AppCompatActivity
     private ArrayList<ArrayList<String>> attendarraylist;
     private ArrayList<String>date;
 
-    DatabaseReference database;
+    DocumentReference parents;
+    Map<String,Object> map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,31 +51,29 @@ public class attendance extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         attendList=(ListView)findViewById(R.id.listAttendence);
+<<<<<<< HEAD
+=======
         database = FirebaseDatabase.getInstance().getReference().child("students/"+childrenAdapter.studentId+"/attendance");
+>>>>>>> 7f4850a56a429f185632da0823a3ff3d2bb3a646
 
+        parents = FirebaseFirestore.getInstance().collection("students").document(childrenAdapter.studentId);
         attendarraylist=new ArrayList<ArrayList<String>>();
         date=new ArrayList<String>();
-
-        database.addValueEventListener(new ValueEventListener() {
+        parents.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> level0Nodes = dataSnapshot.getChildren();
-                for (int i=1;i<=dataSnapshot.getChildrenCount();i++) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                map = (Map<String, Object>) task.getResult().getData().get("attendance");
+                for (int i=0;i<map.size();i++) {
                     // TODO: handle the post
-                    DataSnapshot dataSnapshot1=level0Nodes.iterator().next();
-                    date.add(dataSnapshot1.getKey());
-                    attendarraylist.add((ArrayList<String>) dataSnapshot1.getValue());
+                    String key=String.valueOf(map.keySet().toArray()[i]);
+                    date.add(key);
+                    Log.v("momo",map.get(key).toString());
+                    attendarraylist.add((ArrayList<String>) map.get(key));
                 }
                 attendAdapter attendadapter=new attendAdapter(attendance.this,attendarraylist,date);
                 attendList.setAdapter(attendadapter);
             }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(attendance.this,"canceled",Toast.LENGTH_SHORT).show();
-            }
         });
-
-
     }
 
     @Override

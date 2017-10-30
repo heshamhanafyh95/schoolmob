@@ -5,19 +5,15 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
@@ -30,7 +26,8 @@ public class home extends AppCompatActivity {
     ArrayList<String> profilePic;
     StorageReference mStorageRef;
     ListView childlist;
-    DatabaseReference database;
+    DocumentReference parents;
+    Map<String,Object> map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +41,30 @@ public class home extends AppCompatActivity {
         studentIds=new ArrayList<String>();
         final int flag[]=new int[1];
         mStorageRef = FirebaseStorage.getInstance().getReference().child("students/"+MainActivity.phone);
+<<<<<<< HEAD
+        parents = FirebaseFirestore.getInstance().collection("parents").document(String.valueOf(MainActivity.phone));
+        parents.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        map = (Map<String, Object>) task.getResult().getData().get("children");
+                        for (int i=0;i<map.size();i++) {
+                            // TODO: handle the post
+                            String key=String.valueOf(map.keySet().toArray()[i]);
+                            Map<String,String> map1= (Map<String, String>) map.get(key);
+                            names.add(map1.get("name"));
+                            classs.add(map1.get("class"));
+                            studentIds.add(key);
+                            mStorageRef.child(key+".jpg").getDownloadUrl().addOnCompleteListener(home.this,new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task) {
+                                    profilePic.add(task.getResult().toString());
+                                    if (profilePic.size()>=map.size()){
+                                        childrenAdapter childrenadapter=new childrenAdapter(home.this,profilePic,names,classs,studentIds);
+                                        childlist.setAdapter(childrenadapter);
+                                    }
+                                }
+                            });
+=======
         database = FirebaseDatabase.getInstance().getReference().child("parents/"+MainActivity.phone+"/children");
 
         database.addValueEventListener(new ValueEventListener() {
@@ -67,17 +88,9 @@ public class home extends AppCompatActivity {
                                 childrenAdapter childrenadapter=new childrenAdapter(home.this,profilePic,names,classs,studentIds);
                                 childlist.setAdapter(childrenadapter);
                             }
+>>>>>>> 7f4850a56a429f185632da0823a3ff3d2bb3a646
                         }
-                    });
-                }
-                Log.v("momo",profilePic.toString());
-                /*childrenAdapter childrenadapter=new childrenAdapter(home.this,profilePic,names,classs,studentIds);
-                childlist.setAdapter(childrenadapter);*/
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(home.this,"canceled",Toast.LENGTH_SHORT).show();
-            }
+                    }
         });
     }
 

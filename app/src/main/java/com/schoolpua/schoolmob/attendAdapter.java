@@ -78,14 +78,14 @@ public class attendAdapter extends ArrayAdapter<String>{
 
 
         viewHolder.date.setText(date.get(position));
-        viewHolder.lesson1.setText(String.valueOf(attendance.get(position).get(1)));
-        viewHolder.lesson2.setText(String.valueOf(attendance.get(position).get(2)));
-        viewHolder.lesson3.setText(String.valueOf(attendance.get(position).get(3)));
-        viewHolder.lesson4.setText(String.valueOf(attendance.get(position).get(4)));
-        viewHolder.lesson5.setText(String.valueOf(attendance.get(position).get(5)));
-        viewHolder.lesson6.setText(String.valueOf(attendance.get(position).get(6)));
-        viewHolder.lesson7.setText(String.valueOf(attendance.get(position).get(7)));
-        viewHolder.lesson8.setText(String.valueOf(attendance.get(position).get(8)));
+        viewHolder.lesson1.setText(String.valueOf(attendance.get(position).get(0)));
+        viewHolder.lesson2.setText(String.valueOf(attendance.get(position).get(1)));
+        viewHolder.lesson3.setText(String.valueOf(attendance.get(position).get(2)));
+        viewHolder.lesson4.setText(String.valueOf(attendance.get(position).get(3)));
+        viewHolder.lesson5.setText(String.valueOf(attendance.get(position).get(4)));
+        viewHolder.lesson6.setText(String.valueOf(attendance.get(position).get(5)));
+        viewHolder.lesson7.setText(String.valueOf(attendance.get(position).get(6)));
+        viewHolder.lesson8.setText(String.valueOf(attendance.get(position).get(7)));
 
         return convertView;
     }
