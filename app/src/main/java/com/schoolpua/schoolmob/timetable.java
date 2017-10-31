@@ -1,6 +1,8 @@
 package com.schoolpua.schoolmob;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,14 +12,31 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import java.util.Map;
 
 public class timetable extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     StorageReference mStorageRef;
 
+    DocumentReference student;
+    Map<String,Object> map;
+    ImageView timetablePic;
+    Button fullScreenBtn;
+    String link;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +52,33 @@ public class timetable extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_timetable);
         navigationView.setNavigationItemSelectedListener(this);
-        mStorageRef = FirebaseStorage.getInstance().getReference().child("timetables/"+MainActivity.phone);
+
+        timetablePic=(ImageView)findViewById(R.id.timetablePic);
+        fullScreenBtn=(Button)findViewById(R.id.fullPic);
+
+        mStorageRef = FirebaseStorage.getInstance().getReference().child("timetables/");
+        student = FirebaseFirestore.getInstance().collection("students").document(childrenAdapter.studentId);
+        student.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                map= documentSnapshot.getData();
+                mStorageRef = FirebaseStorage.getInstance().getReference().child("timetables/"+map.get("class")+".JPG");
+                mStorageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        link=task.getResult().toString();
+                        Picasso.with(timetable.this).load(link).into(timetablePic);
+                        fullScreenBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                                startActivity(browserIntent);
+                            }
+                        });
+                    }
+                });
+            }
+        });
 
 
 
