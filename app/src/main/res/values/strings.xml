@@ -17,5 +17,6 @@
 
     <string name="title_activity_attendance">attendance</string>
     <string name="title_activity_grade">Grade</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

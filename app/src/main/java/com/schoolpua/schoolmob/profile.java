@@ -134,7 +134,7 @@ public class profile extends AppCompatActivity
             startActivity(new Intent(this,activities.class));
             finish();
         } else if (id == R.id.nav_tracking) {
-            startActivity(new Intent(this,tracking.class));
+            startActivity(new Intent(this,MapsActivity.class));
             finish();
         } else if (id == R.id.nav_supervisor) {
             startActivity(new Intent(this,callSupervisor.class));
