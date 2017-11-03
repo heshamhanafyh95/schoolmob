@@ -30,12 +30,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        phone="01223456789";
+        childrenAdapter.studentId="1";
+        startActivity(new Intent(MainActivity.this,profile.class));
+        finish();
 
         inputPhone=(EditText)findViewById(R.id.email);
         inputPassword=(EditText)findViewById(R.id.password);
         btnlog=(Button)findViewById(R.id.btn_login);
 
-        btnlog.setOnClickListener(new View.OnClickListener() {
+        /*btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(inputPhone.getText().toString().matches("")||inputPassword.getText().toString().matches("")){
@@ -65,6 +69,6 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             }
-        });
+        });*/
     }
 }
