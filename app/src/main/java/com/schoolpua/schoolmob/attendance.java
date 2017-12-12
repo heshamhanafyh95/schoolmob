@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class attendance extends AppCompatActivity
@@ -28,7 +29,7 @@ public class attendance extends AppCompatActivity
 
     ListView attendList;
 
-    private ArrayList<ArrayList<String>> attendarraylist;
+    private ArrayList<Map> attendarraylist;
     private ArrayList<String>date;
 
     DocumentReference parents;
@@ -51,21 +52,18 @@ public class attendance extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         attendList=(ListView)findViewById(R.id.listAttendence);
-        parents = FirebaseFirestore.getInstance().collection("students").document(childrenAdapter.studentId);
-        attendarraylist=new ArrayList<ArrayList<String>>();
+        parents = FirebaseFirestore.getInstance().collection("students").document(childrenAdapter.studentId );
+        attendarraylist= new ArrayList<>();
         date=new ArrayList<String>();
         parents.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 map = (Map<String, Object>) task.getResult().getData().get("attendance");
-                for (int i=0;i<map.size();i++) {
-                    // TODO: handle the post
-                    String key=String.valueOf(map.keySet().toArray()[i]);
-                    date.add(key);
-                    Log.v("momo",map.get(key).toString());
-                    attendarraylist.add((ArrayList<String>) map.get(key));
+                for(Map.Entry<String, Object> entry : map.entrySet()) {
+                    date.add(entry.getKey());
+                    attendarraylist.add((Map) entry.getValue());
                 }
-                attendAdapter attendadapter=new attendAdapter(attendance.this,attendarraylist,date);
+                attendAdapter attendadapter=new attendAdapter(attendance.this, attendarraylist,date);
                 attendList.setAdapter(attendadapter);
             }
         });

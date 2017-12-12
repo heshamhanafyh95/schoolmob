@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Map;
 
 
 /**
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 
 public class attendAdapter extends ArrayAdapter<String>{
 
-    private ArrayList<ArrayList<String>> attendance;
+    private ArrayList<Map> attendance;
     private ArrayList<String>date;
 
     Context mContext;
@@ -36,7 +37,7 @@ public class attendAdapter extends ArrayAdapter<String>{
         TextView lesson8;
     }
 
-    public attendAdapter(Context context, ArrayList<ArrayList<String>> attendance, ArrayList<String> date) {
+    public attendAdapter(Context context, ArrayList<Map> attendance, ArrayList<String> date) {
         super(context, R.layout.attendance, date);
         this.attendance = attendance;
         this.mContext=context;
@@ -78,14 +79,14 @@ public class attendAdapter extends ArrayAdapter<String>{
 
 
         viewHolder.date.setText(date.get(position));
-        viewHolder.lesson1.setText(String.valueOf(attendance.get(position).get(0)));
-        viewHolder.lesson2.setText(String.valueOf(attendance.get(position).get(1)));
-        viewHolder.lesson3.setText(String.valueOf(attendance.get(position).get(2)));
-        viewHolder.lesson4.setText(String.valueOf(attendance.get(position).get(3)));
-        viewHolder.lesson5.setText(String.valueOf(attendance.get(position).get(4)));
-        viewHolder.lesson6.setText(String.valueOf(attendance.get(position).get(5)));
-        viewHolder.lesson7.setText(String.valueOf(attendance.get(position).get(6)));
-        viewHolder.lesson8.setText(String.valueOf(attendance.get(position).get(7)));
+        viewHolder.lesson1.setText(String.valueOf(attendance.get(position).get("1")));
+        viewHolder.lesson2.setText(String.valueOf(attendance.get(position).get("2")));
+        viewHolder.lesson3.setText(String.valueOf(attendance.get(position).get("3")));
+        viewHolder.lesson4.setText(String.valueOf(attendance.get(position).get("4")));
+        viewHolder.lesson5.setText(String.valueOf(attendance.get(position).get("5")));
+        viewHolder.lesson6.setText(String.valueOf(attendance.get(position).get("6")));
+        viewHolder.lesson7.setText(String.valueOf(attendance.get(position).get("7")));
+        viewHolder.lesson8.setText(String.valueOf(attendance.get(position).get("8")));
 
         return convertView;
     }
