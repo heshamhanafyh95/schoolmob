@@ -30,9 +30,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d("momo", "From: " + remoteMessage.getFrom());
 
+        String title = null;
+
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d("momo", "Message data payload: " + remoteMessage.getData());
+            Log.d("momo", "Notification message title: " +remoteMessage.getData().get("title"));
 
             if (/* Check if data needs to be processed by long running job */ true) {
                 // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
@@ -47,11 +50,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d("momo", "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Log.d("momo", "Message Title: " + remoteMessage.getNotification().getTitle());
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
-        sendNotification(remoteMessage.getNotification().getBody());
+        sendNotification(remoteMessage.getNotification().getBody(),title);
     }
     private void scheduleJob() {
         // [START dispatch_job]
@@ -70,7 +74,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void handleNow() {
         Log.d("momo", "Short lived task is done.");
     }
-    private void sendNotification(String messageBody) {
+
+    private void sendNotification(String messageBody,String title) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -81,8 +86,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.labelicon)
-                        .setContentTitle("FCM Message")
+                        .setContentTitle(title)
                         .setContentText(messageBody)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody))
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
                         .setContentIntent(pendingIntent);
