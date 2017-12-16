@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnlog;
     private EditText inputPhone, inputPassword;
 
-    static String phone;
+    String phone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
                             Map<String, Object> map = task.getResult().getData();
                             if(task.isSuccessful()){
                                 if (map.get("password").equals(inputPassword.getText().toString())){
-                                    startActivity(new Intent(MainActivity.this,home.class));
+                                    Intent i = new Intent(MainActivity.this, home.class);
+                                    i.putExtra("phone", phone);
+                                    startActivity(i);
                                     finish();
                                 }else{
                                     Toast.makeText(MainActivity.this,"invalid username or password try again",Toast.LENGTH_LONG).show();

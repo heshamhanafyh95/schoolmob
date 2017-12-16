@@ -31,6 +31,7 @@ public class grade extends AppCompatActivity
     Map<String,Object> map;
     DocumentReference student;
     ListView subjectList;
+    String phone,studentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,11 @@ public class grade extends AppCompatActivity
 
         subjectList=(ListView)findViewById(R.id.listsubject);
 
-        student = FirebaseFirestore.getInstance().collection("students").document(childrenAdapter.studentId);
+        Bundle extras = getIntent().getExtras();
+        phone= extras.getString("phone");
+        studentId= extras.getString("studentId");
+
+        student = FirebaseFirestore.getInstance().collection("students").document(studentId);
         student.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -102,7 +107,10 @@ public class grade extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings_profile) {
-            startActivity(new Intent(this,home.class));
+            Intent i = new Intent(this, home.class);
+            //i.putExtra("studentId", studentId);
+            i.putExtra("phone", phone);
+            startActivity(i);
             finish();
             return true;
         }else if(id == R.id.action_settings_logout){
@@ -121,25 +129,46 @@ public class grade extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            startActivity(new Intent(this,profile.class));
+            Intent i = new Intent(this, profile.class);
+            i.putExtra("studentId", studentId);
+            i.putExtra("phone", phone);
+            startActivity(i);
             finish();
         } else if (id == R.id.nav_attendance) {
-            startActivity(new Intent(this,attendance.class));
+            Intent i = new Intent(this, attendance.class);
+            i.putExtra("studentId", studentId);
+            i.putExtra("phone", phone);
+            startActivity(i);
             finish();
         } else if (id == R.id.nav_grade) {
-            startActivity(new Intent(this,grade.class));
-            finish();
+            /*Intent i = new Intent(this, grade.class);
+            i.putExtra("studentId", studentId);
+            i.putExtra("phone", phone);
+            startActivity(i);
+            finish();*/
         } else if (id == R.id.nav_timetable) {
-            startActivity(new Intent(this,timetable.class));
+            Intent i = new Intent(this, timetable.class);
+            i.putExtra("studentId", studentId);
+            i.putExtra("phone", phone);
+            startActivity(i);
             finish();
         } else if (id == R.id.nav_activities) {
-            startActivity(new Intent(this,activities.class));
+            Intent i = new Intent(this, activities.class);
+            i.putExtra("studentId", studentId);
+            i.putExtra("phone", phone);
+            startActivity(i);
             finish();
         } else if (id == R.id.nav_tracking) {
-            startActivity(new Intent(this,tracking.class));
+            Intent i = new Intent(this, MapsActivity.class);
+            i.putExtra("studentId", studentId);
+            i.putExtra("phone", phone);
+            startActivity(i);
             finish();
         } else if (id == R.id.nav_supervisor) {
-            startActivity(new Intent(this,callSupervisor.class));
+            Intent i = new Intent(this, callSupervisor.class);
+            i.putExtra("studentId", studentId);
+            i.putExtra("phone", phone);
+            startActivity(i);
             finish();
         }
 

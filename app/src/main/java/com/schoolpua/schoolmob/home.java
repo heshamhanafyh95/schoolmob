@@ -28,6 +28,7 @@ public class home extends AppCompatActivity {
     ListView childlist;
     DocumentReference parents;
     Map<String,Object> map;
+    String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,13 @@ public class home extends AppCompatActivity {
         profilePic=new ArrayList<String>();
         studentIds=new ArrayList<String>();
         final int flag[]=new int[1];
-        mStorageRef = FirebaseStorage.getInstance().getReference().child("students/"+MainActivity.phone);
-        parents = FirebaseFirestore.getInstance().collection("parents").document(String.valueOf(MainActivity.phone));
+
+        Bundle extras = getIntent().getExtras();
+        phone= extras.getString("phone");
+
+
+        mStorageRef = FirebaseStorage.getInstance().getReference().child("students/"+phone);
+        parents = FirebaseFirestore.getInstance().collection("parents").document(String.valueOf(phone));
         parents.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -58,7 +64,7 @@ public class home extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Uri> task) {
                             profilePic.add(task.getResult().toString());
                             if (profilePic.size()>=map.size()){
-                                childrenAdapter childrenadapter=new childrenAdapter(home.this,profilePic,names,classs,studentIds);
+                                childrenAdapter childrenadapter=new childrenAdapter(home.this,profilePic,names,classs,studentIds,phone);
                                 childlist.setAdapter(childrenadapter);
                             }
                         }
@@ -86,8 +92,11 @@ public class home extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings_profile) {
-            startActivity(new Intent(this,home.class));
-            finish();
+            /*Intent i = new Intent(this, home.class);
+            //i.putExtra("studentId", studentId);
+            i.putExtra("phone", phone);
+            startActivity(i);
+            finish();*/
             return true;
         }else if(id == R.id.action_settings_logout){
             startActivity(new Intent(this,MainActivity.class));

@@ -24,7 +24,9 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
     private ArrayList<String> names,classes,studentIds;
     private ArrayList<String> images;
     Context mContext;
-    static String studentId;
+    String phone;
+
+    String studentId;
 
     private static class ViewHolder {
         TextView name;
@@ -32,13 +34,14 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
         ImageView pp;
     }
 
-    public childrenAdapter(Context context,ArrayList<String> images, ArrayList<String> names, ArrayList<String> classes, ArrayList<String> studentIds) {
+    public childrenAdapter(Context context,ArrayList<String> images, ArrayList<String> names, ArrayList<String> classes, ArrayList<String> studentIds,String phone) {
         super(context, R.layout.childview,classes);
         this.names = names;
         this.classes = classes;
         this.mContext=context;
         this.images=images;
         this.studentIds=studentIds;
+        this.phone=phone;
     }
 
     @Override
@@ -50,7 +53,10 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
         {
             case R.id.childPic:
                 studentId=studentIds.get(position);
-                mContext.startActivity(new Intent(mContext,profile.class));
+                Intent i = new Intent(mContext, profile.class);
+                i.putExtra("studentId", studentId);
+                i.putExtra("phone", phone);
+                mContext.startActivity(i);
                 break;
         }
     }
