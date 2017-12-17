@@ -17,9 +17,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -51,13 +53,20 @@ public class MainActivity extends AppCompatActivity {
 
                     phone=inputPhone.getText().toString();
 
-                    DocumentReference parents = FirebaseFirestore.getInstance().collection("parents").document(String.valueOf(inputPhone.getText()));
+                    final DocumentReference parents = FirebaseFirestore.getInstance().collection("parents").document(String.valueOf(inputPhone.getText()));
                     parents.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             Map<String, Object> map = task.getResult().getData();
                             if(task.isSuccessful()){
                                 if (map.get("password").equals(inputPassword.getText().toString())){
+
+                                    Map<String, Object> token = new HashMap<>();
+                                    token.put("token", FirebaseInstanceId.getInstance().getToken());
+                                    parents.set(token, SetOptions.merge());
+
+                                    FirebaseMessaging.getInstance().subscribeToTopic("AllDevices");
+
                                     Intent i = new Intent(MainActivity.this, home.class);
                                     i.putExtra("phone", phone);
                                     startActivity(i);

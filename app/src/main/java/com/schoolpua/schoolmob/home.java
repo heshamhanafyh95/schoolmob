@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class home extends AppCompatActivity {
                     Map<String,String> map1= (Map<String, String>) map.get(key);
                     names.add(map1.get("name"));
                     classs.add(map1.get("class"));
+                    FirebaseMessaging.getInstance().subscribeToTopic(String.valueOf(map1.get("class")));
                     studentIds.add(key);
                     mStorageRef.child(key+".jpg").getDownloadUrl().addOnCompleteListener(home.this,new OnCompleteListener<Uri>() {
                         @Override

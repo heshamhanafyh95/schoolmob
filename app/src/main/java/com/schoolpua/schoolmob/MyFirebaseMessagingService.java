@@ -1,6 +1,7 @@
 package com.schoolpua.schoolmob;
 
 
+import android.os.Bundle;
 import android.util.Log;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -53,9 +54,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(String messageBody,String title) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+        Intent i = new Intent(this, notification.class);
+        i.putExtra("messageBody", messageBody);
+        i.putExtra("title", title);
+        startActivity(i);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, i,
                 PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = getString(R.string.app_name);
@@ -70,8 +74,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setSound(defaultSoundUri)
                         .setContentIntent(pendingIntent);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager =(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
