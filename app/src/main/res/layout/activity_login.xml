@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.schoolpua.schoolmob.login"
+android:orientation="vertical">
+
+<TextView
+    android:id="@+id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="45dp"
+    android:text="School Safety"
+    android:textAlignment="center"
+    android:textColor="#030B9A"
+    android:textSize="40sp"
+    android:textStyle="bold" />
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="@string/hint_phone"
+        android:inputType="phone"
+        android:textColor="#1C5785"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_below="@+id/email"
+        android:hint="@string/hint_password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textColor="#00CC99"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:id="@+id/remeber">
+        <CheckBox
+            android:id="@+id/rememberMe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="35dp"
+            android:layout_below="@+id/password"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginLeft="10dp"
+            android:text="Remember Me"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/remeber"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp"
+        android:text="@string/btn_login"
+        android:background="@drawable/login_btn"
+        android:textColor="#00CC99"
+        android:textSize="32sp" />
+</RelativeLayout>
+
+</LinearLayout>

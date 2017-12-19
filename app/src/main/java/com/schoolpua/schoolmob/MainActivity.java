@@ -2,6 +2,7 @@ package com.schoolpua.schoolmob;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,10 +27,11 @@ import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
-    private Button btnlog;
-    private EditText inputPhone, inputPassword;
 
-    String phone;
+    DocumentReference parents;
+    SharedPreferences pref;
+
+    String phone,pass,password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,48 +41,45 @@ public class MainActivity extends AppCompatActivity {
         childrenAdapter.studentId="1";
         startActivity(new Intent(MainActivity.this,MapsActivity.class));
         finish();*/
+        checkVariables();
 
-        inputPhone=(EditText)findViewById(R.id.email);
-        inputPassword=(EditText)findViewById(R.id.password);
-        btnlog=(Button)findViewById(R.id.btn_login);
+    }
+    public void checkVariables(){
+        pref = getApplicationContext().getSharedPreferences("LoginDetails", 0); // 0 - for private mode
+        if(pref.contains("phone")){
+            phone=pref.getString("phone",null);
+            password=pref.getString("password",null);
 
-        btnlog.setOnClickListener(new View.OnClickListener() {
+            verifyPassword(phone,password);
+
+            Map<String, Object> token = new HashMap<>();
+            token.put("token", FirebaseInstanceId.getInstance().getToken());
+            parents.set(token, SetOptions.merge());
+
+            FirebaseMessaging.getInstance().subscribeToTopic("AllDevices");
+
+            Intent i = new Intent(MainActivity.this, home.class);
+            i.putExtra("phone", phone);
+            startActivity(i);
+            finish();
+        }
+        else{
+            startActivity(new Intent(MainActivity.this,login.class));
+            finish();
+        }
+    }
+    public void verifyPassword(String phone, String password){
+        pass=password;
+        parents = FirebaseFirestore.getInstance().collection("parents").document(phone);
+        parents.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View v) {
-                if(inputPhone.getText().toString().matches("")||inputPassword.getText().toString().matches("")){
-                    Toast.makeText(MainActivity.this,"please insert username & password",Toast.LENGTH_LONG).show();
-                }else{
-
-                    phone=inputPhone.getText().toString();
-
-                    final DocumentReference parents = FirebaseFirestore.getInstance().collection("parents").document(String.valueOf(inputPhone.getText()));
-                    parents.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            Map<String, Object> map = task.getResult().getData();
-                            if(task.isSuccessful()){
-                                if (map.get("password").equals(inputPassword.getText().toString())){
-
-                                    Map<String, Object> token = new HashMap<>();
-                                    token.put("token", FirebaseInstanceId.getInstance().getToken());
-                                    parents.set(token, SetOptions.merge());
-
-                                    FirebaseMessaging.getInstance().subscribeToTopic("AllDevices");
-
-                                    Intent i = new Intent(MainActivity.this, home.class);
-                                    i.putExtra("phone", phone);
-                                    startActivity(i);
-                                    finish();
-                                }else{
-                                    Toast.makeText(MainActivity.this,"invalid username or password try again",Toast.LENGTH_LONG).show();
-                                    inputPassword.setText("");
-                                }
-                            }else{
-                                Toast.makeText(MainActivity.this,"invalid username or password try again",Toast.LENGTH_LONG).show();
-                                inputPassword.setText("");
-                            }
-                        }
-                    });
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                Map<String, Object> map = task.getResult().getData();
+                if(task.isSuccessful()){
+                    if (!map.get("password").equals(pass)){
+                        startActivity(new Intent(MainActivity.this,login.class));
+                        finish();
+                    }
                 }
             }
         });

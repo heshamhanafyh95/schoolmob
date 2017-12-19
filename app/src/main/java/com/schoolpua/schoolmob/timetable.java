@@ -1,6 +1,7 @@
 package com.schoolpua.schoolmob;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -123,7 +124,11 @@ public class timetable extends AppCompatActivity
             finish();
             return true;
         }else if(id == R.id.action_settings_logout){
-            startActivity(new Intent(this,MainActivity.class));
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("LoginDetails", 0); // 0 - for private mode
+            SharedPreferences.Editor editor = pref.edit();
+            editor.clear();
+            editor.commit();
+            startActivity(new Intent(this,login.class));
             finish();
             return true;
         }

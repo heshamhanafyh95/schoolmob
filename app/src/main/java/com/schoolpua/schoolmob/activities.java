@@ -1,6 +1,7 @@
 package com.schoolpua.schoolmob;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +16,7 @@ public class activities extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     String phone,studentId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,11 @@ public class activities extends AppCompatActivity
             finish();
             return true;
         }else if(id == R.id.action_settings_logout){
-            startActivity(new Intent(this,MainActivity.class));
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("LoginDetails", 0); // 0 - for private mode
+            SharedPreferences.Editor editor = pref.edit();
+            editor.clear();
+            editor.commit();
+            startActivity(new Intent(this,login.class));
             finish();
             return true;
         }
