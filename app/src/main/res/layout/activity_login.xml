@@ -66,11 +66,21 @@ android:orientation="vertical">
             android:textSize="22sp"
             android:textStyle="bold"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/forgetlbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/remeber"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp"
+        android:text="Forget password ?"
+        android:textSize="32sp"
+        android:textAlignment="center"/>
     <Button
         android:id="@+id/btn_login"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_below="@+id/remeber"
+        android:layout_below="@+id/forgetlbl"
         android:layout_centerHorizontal="true"
         android:layout_margin="16dp"
         android:text="@string/btn_login"

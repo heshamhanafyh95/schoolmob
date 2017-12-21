@@ -5,10 +5,12 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,8 +22,29 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.security.Security;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.activation.FileDataSource;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Properties;
+
 
 public class login extends AppCompatActivity {
 
@@ -33,6 +56,7 @@ public class login extends AppCompatActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +66,16 @@ public class login extends AppCompatActivity {
         inputPassword=(EditText)findViewById(R.id.password);
         btnlog=(Button)findViewById(R.id.btn_login);
         rememberMe=(CheckBox)findViewById(R.id.rememberMe);
+
+        TextView textView =(TextView)findViewById(R.id.forgetlbl);
+        textView.setClickable(true);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(login.this,forgetPassword.class));
+            }
+        });
+
 
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,9 +123,6 @@ public class login extends AppCompatActivity {
                 }
             }
         });
-
-
-
 
     }
 }
