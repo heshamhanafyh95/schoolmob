@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -23,8 +25,9 @@ public class callSupervisor extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Map<String,Object> map;
-    DocumentReference student;
+    DocumentReference student,busref;
     String phone,studentId;
+    DocumentSnapshot obj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +54,14 @@ public class callSupervisor extends AppCompatActivity
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 map= documentSnapshot.getData();
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", String.valueOf(map.get("supervisor phone")), null));
-                startActivity(intent);
+                busref = FirebaseFirestore.getInstance().collection("bus").document(map.get("bus number").toString());
+                busref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", String.valueOf(documentSnapshot.getString("supervisor phone")), null));
+                        startActivity(intent);
+                    }
+                });
             }
         });
     }

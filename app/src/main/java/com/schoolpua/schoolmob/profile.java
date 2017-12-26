@@ -28,7 +28,8 @@ public class profile extends AppCompatActivity
     TextView proName,proClass,proBusNum,proBusSuper,proBusSuperNum;
     Button callSupervisorBtn;
     Map<String,Object> map;
-    DocumentReference student;
+    DocumentReference student,busref;
+    DocumentSnapshot obj;
     String phone,studentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +66,20 @@ public class profile extends AppCompatActivity
                 proName.setText("Name\n"+map.get("name"));
                 proClass.setText("Class\n"+map.get("class"));
                 proBusNum.setText("Bus Number\n"+map.get("bus number"));
-                proBusSuper.setText("Bus Supervisor\n"+map.get("supervisor name"));
-                proBusSuperNum.setText("Supervisor Phone\n"+map.get("supervisor phone"));
-                callSupervisorBtn.setOnClickListener(new View.OnClickListener() {
+                busref = FirebaseFirestore.getInstance().collection("bus").document(map.get("bus number").toString());
+                busref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", String.valueOf(map.get("supervisor phone")), null));
-                        startActivity(intent);
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        obj=documentSnapshot;
+                        proBusSuper.setText("Bus Supervisor\n" + documentSnapshot.getString("supervisor name"));
+                        proBusSuperNum.setText("Supervisor Phone\n" + documentSnapshot.get("supervisor phone"));
+                        callSupervisorBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", String.valueOf(obj.getString("supervisor phone")), null));
+                                startActivity(intent);
+                            }
+                        });
                     }
                 });
             }
