@@ -8,6 +8,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,6 +26,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     DocumentReference bus;
     LatLng location;
     int j;
+    Marker m;
+    MarkerOptions a;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Map<String,Object> map = documentSnapshot.getData();
                 mMap.clear();
                 location = new LatLng(((double)map.get("lat")),((double)map.get("long")));
-                mMap.addMarker(new MarkerOptions().position(location).title(String.valueOf(j)));
+                a = new MarkerOptions().position(location).title(String.valueOf(j));
+                m = mMap.addMarker(a);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14.0f));
             }
         });
@@ -63,10 +67,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 Map<String,Object> map = documentSnapshot.getData();
-                                mMap.clear();
                                 location = new LatLng(((double)map.get("lat")),((double)map.get("long")));
-                                mMap.addMarker(new MarkerOptions().position(location).title(String.valueOf(j)));
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
+                                m.setPosition(location);
                             }
                         });
                     }
