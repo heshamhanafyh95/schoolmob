@@ -3,6 +3,12 @@ package com.schoolpua.schoolmob;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,7 +26,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     GoogleMap mMap;
     DocumentReference bus;
@@ -28,11 +34,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     int j;
     Marker m;
     MarkerOptions a;
+    Button foucsMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -53,7 +66,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 location = new LatLng(((double)map.get("lat")),((double)map.get("long")));
                 a = new MarkerOptions().position(location).title(String.valueOf(j));
                 m = mMap.addMarker(a);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14.0f));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 17.0f));
+            }
+        });
+        foucsMap=(Button)findViewById(R.id.foucsMap);
+        foucsMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18.0f));
             }
         });
         Timer timer = new Timer();
@@ -76,6 +96,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         }, 0, 1000);
+
 
     }
 

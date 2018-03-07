@@ -54,7 +54,7 @@ public class callSupervisor extends AppCompatActivity
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 map= documentSnapshot.getData();
-                busref = FirebaseFirestore.getInstance().collection("bus").document(map.get("bus number").toString());
+                busref = FirebaseFirestore.getInstance().collection("bus").document(map.get("busnumber").toString());
                 busref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {

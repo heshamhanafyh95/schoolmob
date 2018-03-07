@@ -3,11 +3,15 @@ package com.schoolpua.schoolmob;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
@@ -21,8 +25,8 @@ import com.squareup.picasso.Picasso;
 
 public class childrenAdapter extends ArrayAdapter<String> implements View.OnClickListener{
 
-    private ArrayList<String> names,classes,studentIds;
-    private ArrayList<String> images;
+    private ArrayList<String> names,classes,studentIds,pics;
+
     Context mContext;
     String phone;
 
@@ -31,17 +35,18 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
     private static class ViewHolder {
         TextView name;
         TextView classs;
-        ImageView pp;
+        ImageView pics;
+        RelativeLayout childBg;
     }
 
-    public childrenAdapter(Context context,ArrayList<String> images, ArrayList<String> names, ArrayList<String> classes, ArrayList<String> studentIds,String phone) {
+    public childrenAdapter(Context context, ArrayList<String> names, ArrayList<String> classes, ArrayList<String> studentIds,ArrayList<String> pics,String phone) {
         super(context, R.layout.childview,classes);
         this.names = names;
         this.classes = classes;
         this.mContext=context;
-        this.images=images;
         this.studentIds=studentIds;
         this.phone=phone;
+        this.pics=pics;
     }
 
     @Override
@@ -51,7 +56,7 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
 
         switch (v.getId())
         {
-            case R.id.childPic:
+            case R.id.childBg:
                 studentId=studentIds.get(position);
                 Intent i = new Intent(mContext, profile.class);
                 i.putExtra("studentId", studentId);
@@ -75,7 +80,8 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
             convertView = inflater.inflate(R.layout.childview, parent, false);
             viewHolder.name = (TextView) convertView.findViewById(R.id.childName);
             viewHolder.classs = (TextView) convertView.findViewById(R.id.childClass);
-            viewHolder.pp = (ImageView) convertView.findViewById(R.id.childPic);
+            viewHolder.pics=(ImageView)convertView.findViewById(R.id.childProPic);
+            viewHolder.childBg=(RelativeLayout)convertView.findViewById(R.id.childBg);
 
             result=convertView;
 
@@ -85,13 +91,16 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
             result=convertView;
         }
 
+        byte[] decodedString = Base64.decode(pics.get(position), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
+        viewHolder.childBg.setOnClickListener(this);
+        viewHolder.childBg.setTag(position);
         viewHolder.name.setText(names.get(position));
         viewHolder.classs.setText(classes.get(position));
-        viewHolder.pp.setOnClickListener(this);
-        viewHolder.pp.setTag(position);
-        Picasso.with(mContext).load(images.get(position)).into(viewHolder.pp);
+        viewHolder.pics.setImageBitmap(decodedByte);
         return convertView;
     }
 }
+
 

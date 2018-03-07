@@ -69,7 +69,7 @@ public class timetable extends AppCompatActivity
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 map= documentSnapshot.getData();
-                mStorageRef = FirebaseStorage.getInstance().getReference().child("timetables/"+map.get("class")+".JPG");
+                mStorageRef = FirebaseStorage.getInstance().getReference().child("timetables/"+map.get("class")+".jpg");
                 mStorageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {

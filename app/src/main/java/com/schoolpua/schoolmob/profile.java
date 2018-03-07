@@ -65,8 +65,8 @@ public class profile extends AppCompatActivity
                 map= documentSnapshot.getData();
                 proName.setText("Name\n"+map.get("name"));
                 proClass.setText("Class\n"+map.get("class"));
-                proBusNum.setText("Bus Number\n"+map.get("bus number"));
-                busref = FirebaseFirestore.getInstance().collection("bus").document(map.get("bus number").toString());
+                proBusNum.setText("Bus Number\n"+map.get("busnumber"));
+                busref = FirebaseFirestore.getInstance().collection("bus").document(map.get("busnumber").toString());
                 busref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {

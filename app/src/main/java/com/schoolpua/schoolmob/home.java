@@ -24,8 +24,7 @@ import java.util.Map;
 public class home extends AppCompatActivity {
 
     Button btn_child;
-    ArrayList<String> names,classs,studentIds;
-    ArrayList<String> profilePic;
+    ArrayList<String> names,classs,studentIds,pics;
     StorageReference mStorageRef;
     ListView childlist;
     DocumentReference parents;
@@ -40,8 +39,8 @@ public class home extends AppCompatActivity {
         childlist=(ListView)findViewById(R.id.childlist);
         names=new ArrayList<String>();
         classs=new ArrayList<String>();
-        profilePic=new ArrayList<String>();
         studentIds=new ArrayList<String>();
+        pics=new ArrayList<String>();
         final int flag[]=new int[1];
 
         Bundle extras = getIntent().getExtras();
@@ -60,18 +59,11 @@ public class home extends AppCompatActivity {
                     Map<String,String> map1= (Map<String, String>) map.get(key);
                     names.add(map1.get("name"));
                     classs.add(map1.get("class"));
+                    pics.add(map1.get("pic"));
                     FirebaseMessaging.getInstance().subscribeToTopic(String.valueOf(map1.get("class")));
                     studentIds.add(key);
-                    mStorageRef.child(key+".jpg").getDownloadUrl().addOnCompleteListener(home.this,new OnCompleteListener<Uri>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            profilePic.add(task.getResult().toString());
-                            if (profilePic.size()>=map.size()){
-                                childrenAdapter childrenadapter=new childrenAdapter(home.this,profilePic,names,classs,studentIds,phone);
-                                childlist.setAdapter(childrenadapter);
-                            }
-                        }
-                    });
+                    childrenAdapter childrenadapter=new childrenAdapter(home.this,names,classs,studentIds,pics,phone);
+                    childlist.setAdapter(childrenadapter);
                 }
             }
         });

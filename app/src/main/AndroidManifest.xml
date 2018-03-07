@@ -87,7 +87,13 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps"
+            android:parentActivityName=".profile" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".profile"/>
+        </activity>
         <activity android:name=".notification" />
         <activity android:name=".login" />
         <activity android:name=".forgetPassword"></activity>

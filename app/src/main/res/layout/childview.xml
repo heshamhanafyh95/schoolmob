@@ -6,41 +6,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/childBg">
 
     <ImageView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/childPic"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_margin="5dp">
-    </ImageView>
+        android:id="@+id/childProPic"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginRight="10dp"/>
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/childName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_toRightOf="@id/childPic"
-        android:textSize="18sp"
+        android:textSize="32sp"
         android:textStyle="bold"
         android:text="Name"
         android:textColor="#a82487"
-        android:fontFamily="casual">
+        android:fontFamily="casual"
+        android:textAlignment="center"
+        android:layout_toRightOf="@+id/childProPic">
     </TextView>
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/childClass"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_toRightOf="@id/childPic"
         android:layout_below="@id/childName"
         android:textSize="18sp"
         android:textStyle="bold"
         android:text="Class"
         android:textColor="#a82487"
-        android:fontFamily="casual">
+        android:fontFamily="casual"
+        android:textAlignment="center"
+        android:layout_toRightOf="@+id/childProPic">
     </TextView>
 
 </RelativeLayout>
