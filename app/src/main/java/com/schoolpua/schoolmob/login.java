@@ -55,6 +55,7 @@ public class login extends AppCompatActivity {
     String phone;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
+    BCrypt bCrypt;
 
 
     @Override
@@ -75,7 +76,7 @@ public class login extends AppCompatActivity {
                 startActivity(new Intent(login.this,forgetPassword.class));
             }
         });
-
+        bCrypt=new BCrypt();
 
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,8 +93,10 @@ public class login extends AppCompatActivity {
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             Map<String, Object> map = task.getResult().getData();
                             if(task.isSuccessful()){
-                                if (map.get("password").equals(inputPassword.getText().toString())){
 
+                                //if (BCrypt.checkpw(inputPassword.getText().toString(),String.valueOf(map.get("password"))))
+                                if (map.get("password").equals(inputPassword.getText().toString()))
+                                {
                                     Map<String, Object> token = new HashMap<>();
                                     token.put("token", FirebaseInstanceId.getInstance().getToken());
                                     parents.set(token, SetOptions.merge());

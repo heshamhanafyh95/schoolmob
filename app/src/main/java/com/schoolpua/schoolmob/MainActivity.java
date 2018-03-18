@@ -76,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 Map<String, Object> map = task.getResult().getData();
                 if(task.isSuccessful()){
-                    if (!map.get("password").equals(pass)){
+                    //if (!(BCrypt.checkpw(pass,String.valueOf(map.get("password")))))
+                    if (!map.get("password").equals(pass))
+                    {
                         startActivity(new Intent(MainActivity.this,login.class));
                         finish();
                     }

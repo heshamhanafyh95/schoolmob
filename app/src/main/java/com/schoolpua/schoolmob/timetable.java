@@ -2,7 +2,10 @@ package com.schoolpua.schoolmob;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,18 +31,20 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Map;
 
 public class timetable extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     StorageReference mStorageRef;
 
-    DocumentReference student;
-    Map<String,Object> map;
+    DocumentReference student,timetable;
+    Map<String,Object> map,map2;
     ImageView timetablePic;
     Button fullScreenBtn;
     String link;
     String phone,studentId;
+    Bitmap decodedByte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,32 +69,39 @@ public class timetable extends AppCompatActivity
         phone= extras.getString("phone");
         studentId= extras.getString("studentId");
 
-        mStorageRef = FirebaseStorage.getInstance().getReference().child("timetables/");
+
         student = FirebaseFirestore.getInstance().collection("students").document(studentId);
         student.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 map= documentSnapshot.getData();
-                mStorageRef = FirebaseStorage.getInstance().getReference().child("timetables/"+map.get("class")+".jpg");
-                mStorageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+
+                timetable = FirebaseFirestore.getInstance().collection("timetables").document(String.valueOf(map.get("class")));
+                timetable.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        link=task.getResult().toString();
-                        Picasso.with(timetable.this).load(link).into(timetablePic);
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        map2= documentSnapshot.getData();
+
+                        byte[] decodedString = Base64.decode(String.valueOf(map2.get("pic")), Base64.DEFAULT);
+                        decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        timetablePic.setImageBitmap(decodedByte);
+
                         fullScreenBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                                decodedByte.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                                String path = MediaStore.Images.Media.insertImage(com.schoolpua.schoolmob.timetable.this.getContentResolver(), decodedByte, "Title", null);
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(path));
                                 startActivity(browserIntent);
                             }
                         });
                     }
                 });
+
+
             }
         });
-
-
-
     }
 
     @Override
