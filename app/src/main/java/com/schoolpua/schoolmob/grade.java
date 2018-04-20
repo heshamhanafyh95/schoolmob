@@ -2,7 +2,6 @@ package com.schoolpua.schoolmob;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,11 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -27,10 +26,10 @@ import java.util.Map;
 public class grade extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ArrayList<ArrayList<String>> gradeOfsubject;
-    private ArrayList<String> subject;
+    private ArrayList<String> subjectName;
 
     Map<String,Object> map;
-    DocumentReference student;
+    CollectionReference student;
     ListView subjectList;
     String phone,studentId;
 
@@ -51,7 +50,7 @@ public class grade extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         gradeOfsubject=new ArrayList<ArrayList<String>>();
-        subject=new ArrayList<String>();
+        subjectName=new ArrayList<String>();
 
         subjectList=(ListView)findViewById(R.id.listsubject);
 
@@ -59,26 +58,21 @@ public class grade extends AppCompatActivity
         phone= extras.getString("phone");
         studentId= extras.getString("studentId");
 
-        student = FirebaseFirestore.getInstance().collection("students").document(studentId);
-        student.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        student = FirebaseFirestore.getInstance().collection("students").document(studentId).collection("subjects");
+        student.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                map = (Map<String, Object>) task.getResult().getData().get("subjects");
-                for (int i=0;i<map.size();i++) {
-                    // TODO: handle the post
-                    String key=String.valueOf(map.keySet().toArray()[i]);
-                    Map<String,String> map1= (Map<String, String>) map.get(key);
-                    subject.add(key);
+            public void onSuccess(QuerySnapshot documentSnapshots) {
+                for (DocumentSnapshot subject:documentSnapshots.getDocuments()) {
+                    subjectName.add(subject.getId());
                     ArrayList<String>temp=new ArrayList<String>();
-                    temp.add(String.valueOf(map1.get("final")));
-                    temp.add(String.valueOf(map1.get("midterm")));
-                    temp.add(String.valueOf(map1.get("quizzes")));
+                    temp.add(String.valueOf(subject.getData().get("final")));
+                    temp.add(String.valueOf(subject.getData().get("midterm")));
+                    temp.add(String.valueOf(subject.getData().get("quizzes")));
                     gradeOfsubject.add(temp);
                 }
-                gradeAdapter gradeadapter=new gradeAdapter(grade.this,gradeOfsubject,subject);
+                gradeAdapter gradeadapter=new gradeAdapter(grade.this,gradeOfsubject,subjectName);
                 subjectList.setAdapter(gradeadapter);
             }
-
         });
     }
 

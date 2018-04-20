@@ -16,8 +16,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -25,7 +23,6 @@ public class home extends AppCompatActivity {
 
     Button btn_child;
     ArrayList<String> names,classs,studentIds,pics;
-    StorageReference mStorageRef;
     ListView childlist;
     DocumentReference parents;
     Map<String,Object> map;
@@ -47,7 +44,6 @@ public class home extends AppCompatActivity {
         phone= extras.getString("phone");
 
 
-        mStorageRef = FirebaseStorage.getInstance().getReference().child("students/"+phone);
         parents = FirebaseFirestore.getInstance().collection("parents").document(String.valueOf(phone));
         parents.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

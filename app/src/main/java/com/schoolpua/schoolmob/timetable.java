@@ -27,8 +27,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -36,7 +34,6 @@ import java.util.Map;
 
 public class timetable extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    StorageReference mStorageRef;
 
     DocumentReference student,timetable;
     Map<String,Object> map,map2;

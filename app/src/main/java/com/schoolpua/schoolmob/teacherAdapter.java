@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,32 +16,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 
+public class teacherAdapter extends ArrayAdapter<String> implements View.OnClickListener{
 
-
-
-public class childrenAdapter extends ArrayAdapter<String> implements View.OnClickListener{
-
-    private ArrayList<String> names,classes,studentIds,pics;
+    private ArrayList<String> names,emails,pics;
 
     Context mContext;
-    String phone;
-
-    String studentId;
 
     private static class ViewHolder {
         TextView name;
-        TextView classs;
+        TextView email;
         ImageView pics;
-        RelativeLayout childBg;
+        RelativeLayout teacherBg;
     }
 
-    public childrenAdapter(Context context, ArrayList<String> names, ArrayList<String> classes, ArrayList<String> studentIds,ArrayList<String> pics,String phone) {
-        super(context, R.layout.childview,classes);
+    public teacherAdapter(Context context, ArrayList<String> names, ArrayList<String> emails,ArrayList<String> pics) {
+        super(context, R.layout.teacherview,emails);
         this.names = names;
-        this.classes = classes;
+        this.emails = emails;
         this.mContext=context;
-        this.studentIds=studentIds;
-        this.phone=phone;
         this.pics=pics;
     }
 
@@ -51,12 +44,10 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
 
         switch (v.getId())
         {
-            case R.id.childBg:
-                studentId=studentIds.get(position);
-                Intent i = new Intent(mContext, profile.class);
-                i.putExtra("studentId", studentId);
-                i.putExtra("phone", phone);
-                mContext.startActivity(i);
+            case R.id.teacherBg:
+                Intent i = new Intent(Intent.ACTION_SENDTO);
+                i.setData(Uri.parse("mailto:"+emails.get(position)));
+                mContext.startActivity(Intent.createChooser(i,"Send Email to teacher"));
                 break;
         }
     }
@@ -72,11 +63,11 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
 
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.childview, parent, false);
-            viewHolder.name = (TextView) convertView.findViewById(R.id.childName);
-            viewHolder.classs = (TextView) convertView.findViewById(R.id.childClass);
-            viewHolder.pics=(ImageView)convertView.findViewById(R.id.childProPic);
-            viewHolder.childBg=(RelativeLayout)convertView.findViewById(R.id.childBg);
+            convertView = inflater.inflate(R.layout.teacherview, parent, false);
+            viewHolder.name = (TextView) convertView.findViewById(R.id.teacherName);
+            viewHolder.email = (TextView) convertView.findViewById(R.id.teacherClass);
+            viewHolder.pics=(ImageView)convertView.findViewById(R.id.teacherProPic);
+            viewHolder.teacherBg=(RelativeLayout)convertView.findViewById(R.id.teacherBg);
 
             result=convertView;
 
@@ -89,10 +80,10 @@ public class childrenAdapter extends ArrayAdapter<String> implements View.OnClic
         byte[] decodedString = Base64.decode(pics.get(position), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-        viewHolder.childBg.setOnClickListener(this);
-        viewHolder.childBg.setTag(position);
+        viewHolder.teacherBg.setOnClickListener(this);
+        viewHolder.teacherBg.setTag(position);
         viewHolder.name.setText(names.get(position));
-        viewHolder.classs.setText(classes.get(position));
+        viewHolder.email.setText(emails.get(position));
         viewHolder.pics.setImageBitmap(decodedByte);
         return convertView;
     }

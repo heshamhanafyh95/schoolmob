@@ -55,7 +55,6 @@ public class login extends AppCompatActivity {
     String phone;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    BCrypt bCrypt;
 
 
     @Override
@@ -76,7 +75,6 @@ public class login extends AppCompatActivity {
                 startActivity(new Intent(login.this,forgetPassword.class));
             }
         });
-        bCrypt=new BCrypt();
 
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override

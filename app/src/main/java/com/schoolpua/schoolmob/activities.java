@@ -2,6 +2,7 @@ package com.schoolpua.schoolmob;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,11 +12,29 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class activities extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     String phone,studentId;
+    Query teachers;
+    ListView teacherlist;
+    ArrayList<String> names,emails,studentIds,pics;
 
 
     @Override
@@ -37,6 +56,26 @@ public class activities extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
         phone= extras.getString("phone");
         studentId= extras.getString("studentId");
+
+        names=new ArrayList<String>();
+        emails=new ArrayList<String>();
+        pics=new ArrayList<String>();
+        teacherlist=(ListView)findViewById(R.id.teacherlist);
+
+
+        teachers = FirebaseFirestore.getInstance().collection("employees").whereEqualTo("position", "teacher");
+        teachers.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot documentSnapshots) {
+                for(DocumentSnapshot teacher:documentSnapshots.getDocuments()){
+                    names.add(String.valueOf(teacher.getData().get("name")));
+                    emails.add(String.valueOf(teacher.getData().get("email")));
+                    pics.add(String.valueOf(teacher.getData().get("pic")));
+                }
+                teacherAdapter childrenadapter=new teacherAdapter(activities.this,names,emails,pics);
+                teacherlist.setAdapter(childrenadapter);
+            }
+        });
     }
     @Override
     public void onBackPressed() {
